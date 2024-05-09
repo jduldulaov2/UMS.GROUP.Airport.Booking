@@ -1,0 +1,331 @@
+
+<div class="content-wrapper">
+    
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Registered Users</h1>
+          </div>
+          <div  class="col-sm-6" style="text-align: right;">
+            <a [routerLink]="['/portal/members/register-user']"  class="btn btn-primary btn-sm" style="width: 232px!important; ">
+                <i class="fas fa-user-plus">
+                </i>
+                Create New User
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+                <div class="col-md-8"><h3 class="card-title"><i class="fas fa-user-cog"></i> List of Users</h3></div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="search" class="form-control form-control-lg" placeholder="Search User" style="font-size: 1.18rem!important;">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                    <tr>
+                        <th style="width: 1%">
+                            #
+                        </th>
+                        <th style="width: 20%">
+                            Users
+                        </th>
+                        <th style="width: 30%">
+                            Member Type
+                        </th>
+                        <th>
+                            Member Since
+                        </th>
+                        <th style="width: 8%" class="text-center">
+                            Status
+                        </th>
+                        <th style="width: 20%">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="members-avatar" style="background: #E93B8B;">		
+                                MM
+                            </div>
+                        </td>
+                        <td>
+                            <a style="font-weight: bold;">
+                                Ma. Michaela Alejandria
+                            </a>
+                            <br/>
+                            <small style="color: #6c757d;">
+                               Michaela.Alejandria@dbresults.com.au
+                            </small>
+                        </td>
+                        <td>
+                            Administrator
+                        </td>
+                        <td>
+                            July 22, 2022
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success">Active</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a [routerLink]="['/portal/members/user-item/0000-guid-id-here-0000/modify']"  class="btn btn-primary btn-sm custom-button-reset">
+                                <i class="fas fa-user-cog">
+                                </i>
+                                Manage User / Settings
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="members-avatar" style="background: #AF77E3;">		
+                                RA
+                            </div>
+                        </td>
+                        <td>
+                            <a style="font-weight: bold;">
+                                Reimer Algabre
+                            </a>
+                            <br/>
+                            <small style="color: #6c757d;">
+                                Reimer.Algabre@dbresults.com.au
+                            </small>
+                        </td>
+                        <td>
+                            Administrator
+                        </td>
+                        <td>
+                            July 22, 2022
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success">Active</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a [routerLink]="['/portal/members/user-item/0000-guid-id-here-0000/modify']" class="btn btn-primary btn-sm custom-button-reset">
+                                <i class="fas fa-user-cog">
+                                </i>
+                                Manage User / Settings
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="members-avatar" style="background: #5985DE;">		
+                                MM
+                            </div>
+                        </td>
+                        <td>
+                            <a style="font-weight: bold;">
+                                Mark Joseph Manabat
+                            </a>
+                            <br/>
+                            <small style="color: #6c757d;">
+                                MarkJoseph.Manabat@dbresults.com.au
+                            </small>
+                        </td>
+                        <td>
+                            Administrator
+                        </td>
+                        <td>
+                            July 22, 2022
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success">Active</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a [routerLink]="['/portal/members/user-item/0000-guid-id-here-0000/modify']" class="btn btn-primary btn-sm custom-button-reset">
+                                <i class="fas fa-user-cog">
+                                </i>
+                                Manage User / Settings
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="members-avatar" style="background: #7ED37B;">		
+                                MB
+                            </div>
+                        </td>
+                        <td>
+                            <a style="font-weight: bold;">
+                                Marion Kristoffer Vien Basa
+                            </a>
+                            <br/>
+                            <small style="color: #6c757d;">
+                                MarionKristoffer.Basa@dbresults.com.au
+                            </small>
+                        </td>
+                        <td>
+                            Administrator
+                        </td>
+                        <td>
+                            July 22, 2022
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success">Active</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a [routerLink]="['/portal/members/user-item/0000-guid-id-here-0000/modify']" class="btn btn-primary btn-sm custom-button-reset">
+                                <i class="fas fa-user-cog">
+                                </i>
+                                Manage User / Settings
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="members-avatar" style="background: #2ED6EE;">		
+                                JD
+                            </div>
+                        </td>
+                        <td>
+                            <a style="font-weight: bold;">
+                                Jake Duldulao
+                            </a>
+                            <br/>
+                            <small style="color: #6c757d;">
+                                jake.duldulao@dbresults.com.au
+                            </small>
+                        </td>
+                        <td>
+                            Administrator
+                        </td>
+                        <td>
+                            July 22, 2022
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success">Active</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a [routerLink]="['/portal/members/user-item/0000-guid-id-here-0000/modify']" class="btn btn-primary btn-sm custom-button-reset">
+                                <i class="fas fa-user-cog">
+                                </i>
+                                Manage User / Settings
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="members-avatar" style="background: #3F8FAB;">		
+                                RA
+                            </div>
+                        </td>
+                        <td>
+                            <a style="font-weight: bold;">
+                                Ramon Angostora
+                            </a>
+                            <br/>
+                            <small style="color: #6c757d;">
+                                ramon.angostora@dbresults.com.hk
+                            </small>
+                        </td>
+                        <td>
+                            User
+                        </td>
+                        <td>
+                            July 22, 2022
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success">Active</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a [routerLink]="['/portal/members/user-item/0000-guid-id-here-0000/modify']" class="btn btn-primary btn-sm custom-button-reset">
+                                <i class="fas fa-user-cog">
+                                </i>
+                                Manage User / Settings
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="members-avatar">		
+                                DD
+                            </div>
+                        </td>
+                        <td>
+                            <a style="font-weight: bold;">
+                                Daniel Dayrit
+                            </a>
+                            <br/>
+                            <small style="color: #6c757d;">
+                                daniel.dayrit@dbresults.com.ph
+                            </small>
+                        </td>
+                        <td>
+                            User
+                        </td>
+                        <td>
+                            July 22, 2022
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success">Active</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a [routerLink]="['/portal/members/user-item/0000-guid-id-here-0000/modify']" class="btn btn-primary btn-sm custom-button-reset">
+                                <i class="fas fa-user-cog">
+                                </i>
+                                Manage User / Settings
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="members-avatar" style="background: #E93B8B;">		
+                                MP
+                            </div>
+                        </td>
+                        <td>
+                            <a style="font-weight: bold;">
+                                Ma Krizzelle Pangilinan
+                            </a>
+                            <br/>
+                            <small style="color: #6c757d;">
+                                makrizzelle.pangilinan@dbresults.com.ph
+                            </small>
+                        </td>
+                        <td>
+                            User
+                        </td>
+                        <td>
+                            July 22, 2022
+                        </td>
+                        <td class="project-state">
+                            <span class="badge badge-success">Active</span>
+                        </td>
+                        <td class="project-actions text-right">
+                            <a [routerLink]="['/portal/members/user-item/0000-guid-id-here-0000/modify']" class="btn btn-primary btn-sm custom-button-reset">
+                                <i class="fas fa-user-cog">
+                                </i>
+                                Manage User / Settings
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+  
+      </section>
+
+  </div>
+
+  

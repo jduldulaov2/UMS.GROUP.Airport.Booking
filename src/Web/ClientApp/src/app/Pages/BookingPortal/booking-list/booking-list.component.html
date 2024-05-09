@@ -1,0 +1,107 @@
+
+<div class="content-wrapper">
+    
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">List of Bookings</h1>
+          </div>
+          <div  class="col-sm-6" style="text-align: right;">
+            <a [routerLink]="['/portal/manage-bookings/register-booking']"  class="btn btn-primary btn-sm" style="width: 232px!important; ">
+                <i class="fas fa-user-plus">
+                </i>
+                Create New Booking
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+                <div class="col-md-8"><h3 class="card-title"><i class="fas fa-user-cog"></i> List of Bookings</h3></div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="search" class="form-control form-control-lg" placeholder="Search Flight # / Name" style="font-size: 1.18rem!important;">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                    <tr>
+                        <th style="width: 1%">
+                            #
+                        </th>
+                        <th style="width: 20%">
+                            Passenger
+                        </th>
+                        <th>
+                            Flight #
+                        </th>
+                        <th>
+                            Airport
+                        </th>
+                        <th>
+                            Plane
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="members-avatar" style="background: #E93B8B;">		
+                                MM
+                            </div>
+                        </td>
+                        <td>
+                            <a style="font-weight: bold;">
+                                Ma. Michaela Alejandria
+                            </a>
+                            <br/>
+                            <small style="color: #6c757d;">
+                               Michaela.Alejandria@dbresults.com.au
+                            </small>
+                        </td>
+                        <td>
+                            YU2387f
+                        </td>
+                        <td>
+                            NAIA International Airport
+                        </td>
+                        <td>
+                            Philippine Airlines
+                        </td>
+                        <td class="project-actions text-right">
+                            <a [routerLink]="['/portal/manage-bookings/1001/detail']"  class="btn btn-primary btn-sm custom-button-reset">
+                                <i class="fas fa-user-cog">
+                                </i>
+                                Manage Booking
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+  
+      </section>
+
+  </div>
+
+  

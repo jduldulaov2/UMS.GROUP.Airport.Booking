@@ -1,0 +1,283 @@
+.submitted{
+	background-color: #ffc10014;
+	text-align: center;
+}
+
+.approved{
+	background-color: #71c01621;
+	text-align: center;
+}
+
+.rejected{
+	background-color: #f4433621;
+	text-align: center;
+}
+
+.view-details{
+	text-align: center;
+	cursor: pointer;
+	text-decoration: underline;
+	
+}
+
+.view-details a{
+	color: black!important;
+}
+
+.info-box:hover{
+	background-color: #ffff0012;
+	cursor: pointer;
+}
+
+[class*=sidebar-dark-] {
+    background-color: #1C1F2E!important;
+}
+
+.navbar-white {
+    background-color: #1C1F2E!important;
+    color: #1f2d3d;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: rgb(193 188 188)!important;
+}
+
+.user-panel, .user-panel .info {
+    overflow: visible!important;
+}
+
+.active-user{
+	color: white!important;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #0ba8c1!important;
+}
+
+.btn-primary {
+    border-color: #1391a500!important;
+}
+
+.members-avatar {
+	width: 80px;
+    height: 80px;
+    border-radius: 10%;
+    font-size: 30px;
+    font-family: roboto, arial;
+    color: white;
+    line-height: 80px;
+    text-align: center;
+    background: orange;
+  }
+
+  .custom-button-reset{
+    background: #2d71a1!important; 
+    background: linear-gradient(-45deg, #17a2b8, #17a2b8)!important;
+    color: #fff;
+  }
+
+  .custom-background{
+    background: #2d71a1!important;
+    background: linear-gradient(-45deg, #1391a5, #274685)!important;
+    color: #fff!important;
+  }
+
+  #overlay_result {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 999999; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+  }
+
+  .custom-media-header{
+    background: #45545721;
+  }
+
+  .custom-media-header:hover{
+    background: #a5a59b9e;
+    cursor: pointer;
+  }
+
+  .modal-content {
+    top: 100px!important;
+  }
+
+  .docs-tooltip-custom {
+    padding: 0px 5px!important;
+  }
+
+  #overlay {
+    background: #ffffff;
+    color: #666666;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 5000;
+    top: 0;
+    left: 0;
+    float: left;
+    text-align: center;
+    padding-top: 25%;
+    opacity: .80;
+  }
+  .spinner {
+      margin: 0 auto;
+      height: 64px;
+      width: 64px;
+      animation: rotate 0.4s infinite linear;
+      border: 5px solid #09465d  ;
+      border-right-color: transparent;
+      border-radius: 50%;
+  }
+  @keyframes rotate {
+      0% {
+          transform: rotate(0deg);
+      }
+      100% {
+          transform: rotate(360deg);
+      }
+  }
+
+  .loader {
+    transform: rotateZ(45deg);
+    perspective: 1000px;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    color: green;
+  }
+    .loader:before,
+    .loader:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      border-radius: 50%;
+      transform: rotateX(70deg);
+      animation: 1s spin linear infinite;
+    }
+    .loader:after {
+      color: #FF3D00;
+      transform: rotateY(70deg);
+      animation-delay: .4s;
+    }
+
+  @keyframes rotate {
+    0% {
+      transform: translate(-50%, -50%) rotateZ(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotateZ(360deg);
+    }
+  }
+
+  @keyframes rotateccw {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(-360deg);
+    }
+  }
+
+  @keyframes spin {
+    0%,
+    100% {
+      box-shadow: .2em 0px 0 0px currentcolor;
+    }
+    12% {
+      box-shadow: .2em .2em 0 0 currentcolor;
+    }
+    25% {
+      box-shadow: 0 .2em 0 0px currentcolor;
+    }
+    37% {
+      box-shadow: -.2em .2em 0 0 currentcolor;
+    }
+    50% {
+      box-shadow: -.2em 0 0 0 currentcolor;
+    }
+    62% {
+      box-shadow: -.2em -.2em 0 0 currentcolor;
+    }
+    75% {
+      box-shadow: 0px -.2em 0 0 currentcolor;
+    }
+    87% {
+      box-shadow: .2em -.2em 0 0 currentcolor;
+    }
+  }
+
+  .lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #176480;
+    border-color: #176480 transparent #176480 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loader-line {
+    background-color: var(--main-color);
+  }
+  
+  .loader__element {
+    height: var(--size);
+    width: 100%;
+    background: var(--back-color);
+  
+  }
+  
+  .loader__element:before {
+    content: '';
+    display: block;
+    background-color: var(--loader-color);
+    height: var(--size);
+    width: 0;
+      animation: getWidth var(--time) ease-in infinite;
+  }
+  
+  @keyframes getWidth {
+    100% { width: 100%; }
+  }
+  
+  .notification-bottom {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    /* Rest of your styling */
+  }
+  
+  .notification-close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    /* This are approximated values, and the rest of your styling goes here */
+  }
+  
+

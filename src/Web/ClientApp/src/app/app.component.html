@@ -1,0 +1,8 @@
+
+<ng-container *ngIf="IsLoggedIn == true">
+    <app-admin-portal></app-admin-portal>
+</ng-container>
+
+<ng-container *ngIf="IsLoggedIn == false">
+    <app-default-portal></app-default-portal>
+</ng-container>
