@@ -3,6 +3,8 @@ public class Airport : BaseAuditableEntity
 {
     public string? AirportName { get; set; }
 
+    public int? CountryId { get; set; }
+
     public string? Street { get; set; }
 
     public string? City { get; set; }

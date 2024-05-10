@@ -8,5 +8,11 @@ public interface IApplicationDbContext
 
     DbSet<Airport> Airport { get; }
 
+    DbSet<Country> Country { get; }
+
+    DbSet<Plane> Plane { get; }
+
+    DbSet<Flight> Flight { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

@@ -10,6 +10,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     public DbSet<SystemEnvironment> SystemEnvironment => Set<SystemEnvironment>();
     public DbSet<Airport> Airport => Set<Airport>();
+
+    public DbSet<Country> Country => Set<Country>();
+
+    public DbSet<Plane> Plane => Set<Plane>();
+
+    public DbSet<Flight> Flight => Set<Flight>();
+
     IQueryable<IdentityUser> IApplicationDbContext.Users => this.Users;
     protected override void OnModelCreating(ModelBuilder builder)
     {
