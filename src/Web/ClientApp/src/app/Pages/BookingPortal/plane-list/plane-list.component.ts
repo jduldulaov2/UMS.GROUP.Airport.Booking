@@ -21,26 +21,26 @@ export class PlaneListComponent {
   ngOnInit(){
     this.loader.ShowLoader();
     this.getPlaneList();
-
-    setTimeout(function(){
-
-      // Declare Data Table
-      $('#PlaneTable').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-        "pageLength": 10
-      });
-
-    }, 400);
   }
 
   getPlaneList(): void {
     this.planeClient.getAllPlanes().subscribe({
+      next: result => {
+        this.planeDTO = result
+        console.log(result);
+      },
+      error: error => console.error(error)
+    });
+  }
+
+  onEnter(): void {
+    this.GetPlaneByName();
+  }
+
+  GetPlaneByName(): void {
+    this.loader.ShowLoader();
+    var value = $('#txtSearch').val();
+    this.planeClient.getPlaneByName(value).subscribe({
       next: result => {
         this.planeDTO = result
         console.log(result);

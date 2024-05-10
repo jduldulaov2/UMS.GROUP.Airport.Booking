@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AirportClient, GetAllAirportQueryDto } from '../../../web-api-client';
+import { AirportClient, GetAirportByNameQueryDto, GetAllAirportQueryDto } from '../../../web-api-client';
 import { SpinnerServiceService } from '../../../Services/Shared/spinner-service.service';
 declare var $: any;
 
@@ -10,7 +10,7 @@ declare var $: any;
 })
 export class AirportListComponent {
   public airportDto: GetAllAirportQueryDto[] = [];
-
+  public getAirportByNameQueryDto: GetAirportByNameQueryDto[] = [];
   constructor(
     private airportClient: AirportClient,
     private loader: SpinnerServiceService
@@ -20,23 +20,6 @@ export class AirportListComponent {
   ngOnInit(){
     this.loader.ShowLoader();
     this.getAirportList();
-
-    setTimeout(function(){
-
-      // Declare Data Table
-      $('#AirportTable').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-        "pageLength": 10
-      });
-
-    }, 400);
-
   }
 
   getAirportList(): void {
@@ -48,4 +31,21 @@ export class AirportListComponent {
       error: error => console.error(error)
     });
   }
+
+  onEnter(): void {
+    this.GetAirportByName();
+  }
+
+  GetAirportByName(): void {
+    this.loader.ShowLoader();
+    var value = $('#txtSearch').val();
+    this.airportClient.getAirportByName(value).subscribe({
+      next: result => {
+        this.airportDto = result
+        console.log(result);
+      },
+      error: error => console.error(error)
+    });
+  }
+
 }

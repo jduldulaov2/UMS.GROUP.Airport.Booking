@@ -21,15 +21,15 @@
     <section class="content">
 
         <!-- Default box -->
-        <div class="card custom-background">
-          <div class="card-header">
+        <div class="card">
+          <div class="card-header custom-background">
             <div class="row">
                 <div class="col-md-8"><h3 class="card-title"><i class="fas fa-user-cog"></i> List of Bookings</h3></div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="search" class="form-control form-control-lg" placeholder="Search Flight # / Name" style="font-size: 1.18rem!important;">
+                        <input (keyup.enter)="onEnter()" id="txtSearch" type="text" class="form-control form-control-lg" placeholder="Search Last Name" style="font-size: 1.18rem!important;">
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
+                            <button (click)="GetBookingByName()" type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
@@ -38,69 +38,72 @@
             </div>
           </div>
           <div class="card-body p-0">
-            <table id="BookingTable" class="table table-striped projects">
-                <thead>
-                    <tr>
-                        <th style="width: 1%">
-                            #
-                        </th>
-                        <th style="width: 20%">
-                            Passenger
-                        </th>
-                        <th>
-                            Flight #
-                        </th>
-                        <th>
-                            Airport
-                        </th>
-                        <th>
-                            Plane
-                        </th>
-                        <th>
-                            Flight Date
-                        </th>
-                        <th>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of bookingDto">
-                        <td>
-                            <div class="members-avatar" style="background: #20c997;">		
-                                {{item.avatar}}
-                            </div>
-                        </td>
-                        <td>
-                            <a style="font-weight: bold;">
-                                {{item.firstName}} {{item.lastName}}
-                            </a>
-                            <br/>
-                            <small style="color: #6c757d;">
-                                {{item.contactNumber}}
-                            </small>
-                        </td>
-                        <td>
-                            {{item.flightCode}}
-                        </td>
-                        <td>
-                            {{item.airportName}}
-                        </td>
-                        <td>
-                            {{item.planeName}}
-                        </td>
-                        <td>
-                            {{item.flightDate}}
-                        </td>
-                        <td class="project-actions text-right">
-                            <a [routerLink]="['/portal/manage-bookings',item.uniqueId,'detail']" class="btn btn-primary btn-sm custom-button-reset">
-                                <i class="fas fa-user-cog">
-                                </i>
-                                Manage Booking
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="tableFixHead">
+                <table id="BookingTable" class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th style="width: 1%">
+                                #
+                            </th>
+                            <th style="width: 20%">
+                                Passenger
+                            </th>
+                            <th>
+                                Flight #
+                            </th>
+                            <th>
+                                Airport
+                            </th>
+                            <th>
+                                Plane
+                            </th>
+                            <th>
+                                Flight Date
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of bookingDto">
+                            <td>
+                                <div class="members-avatar" style="background: #20c997;">		
+                                    {{item.avatar}}
+                                </div>
+                            </td>
+                            <td>
+                                <a style="font-weight: bold;">
+                                    {{item.firstName}} {{item.lastName}}
+                                </a>
+                                <br/>
+                                <small style="color: #6c757d;">
+                                    {{item.contactNumber}}
+                                </small>
+                            </td>
+                            <td>
+                                {{item.flightCode}}
+                            </td>
+                            <td>
+                                {{item.airportName}}
+                            </td>
+                            <td>
+                                {{item.planeName}}
+                            </td>
+                            <td>
+                                {{item.flightDate}}
+                            </td>
+                            <td class="project-actions text-right">
+                                <a [routerLink]="['/portal/manage-bookings',item.uniqueId,'detail']" class="btn btn-primary btn-sm custom-button-reset">
+                                    <i class="fas fa-user-cog">
+                                    </i>
+                                    Manage Booking
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
           </div>
           <!-- /.card-body -->
         </div>

@@ -21,23 +21,22 @@ export class FlightListComponent {
   ngOnInit(){
     this.loader.ShowLoader();
     this.getFlightList();
+  }
 
-    setTimeout(function(){
+  onEnter(): void {
+    this.GetFlightByName();
+  }
 
-      // Declare Data Table
-      $('#flightTable').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-        "pageLength": 10
-      });
-
-    }, 400);
-
+  GetFlightByName(): void {
+    this.loader.ShowLoader();
+    var value = $('#txtSearch').val();
+    this.flightClient.getFlightByName(value).subscribe({
+      next: result => {
+        this.flightDto = result
+        console.log(result);
+      },
+      error: error => console.error(error)
+    });
   }
 
   getFlightList(): void {

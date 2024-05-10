@@ -21,15 +21,15 @@
     <section class="content">
 
         <!-- Default box -->
-        <div class="card custom-background">
-          <div class="card-header">
+        <div class="card">
+          <div class="card-header custom-background">
             <div class="row">
                 <div class="col-md-8"><h3 class="card-title"><i class="fas fa-user-cog"></i> List of Planes</h3></div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="search" class="form-control form-control-lg" placeholder="Search Plane" style="font-size: 1.18rem!important;">
+                        <input id="txtSearch" (keyup.enter)="onEnter()" type="text" class="form-control form-control-lg" placeholder="Search Airline" style="font-size: 1.18rem!important;">
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
+                            <button (click)="GetPlaneByName()" type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
@@ -38,58 +38,61 @@
             </div>
           </div>
           <div class="card-body p-0">
-            <table id="PlaneTable" class="table table-striped projects">
-                <thead>
-                    <tr>
-                        <th style="width: 20%">
-                            Airline
-                        </th>
-                        <th style="width: 30%">
-                            Code
-                        </th>
-                        <th>
-                            Model
-                        </th>
-                        <th style="width: 8%" class="text-center">
-                            Status
-                        </th>
-                        <th style="width: 20%">
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of planeDTO">
-                        <td>
-                            <a style="font-weight: bold;">
-                                {{item.airlineName}}
-                            </a>
-                            <br/>
-                            <small style="color: #6c757d;">
-                                {{item.airlineName}}
-                            </small>
-                        </td>
-                        <td>
-                            {{item.code}}
-                        </td>
-                        <td>
-                            {{item.model}}
-                        </td>
-                        <td class="project-state" *ngIf="item.isActive == null|| item.isActive == true">
-                            <span class="badge badge-success">Active</span>
-                        </td>
-                        <td class="project-state" *ngIf="item.isActive == false">
-                            <span class="badge badge-danger">Deactivated</span>
-                        </td>
-                        <td class="project-actions text-right">
-                            <a [routerLink]="['/portal/manage-planes',item.uniqueId,'detail']"  class="btn btn-primary btn-sm custom-button-reset">
-                                <i class="fas fa-user-cog">
-                                </i>
-                                Manage Plane / Settings
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="tableFixHead">
+                <table id="PlaneTable" class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                Airline
+                            </th>
+                            <th style="width: 30%">
+                                Code
+                            </th>
+                            <th>
+                                Model
+                            </th>
+                            <th style="width: 8%" class="text-center">
+                                Status
+                            </th>
+                            <th style="width: 20%">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of planeDTO">
+                            <td>
+                                <a style="font-weight: bold;">
+                                    {{item.airlineName}}
+                                </a>
+                                <br/>
+                                <small style="color: #6c757d;">
+                                    {{item.airlineName}}
+                                </small>
+                            </td>
+                            <td>
+                                {{item.code}}
+                            </td>
+                            <td>
+                                {{item.model}}
+                            </td>
+                            <td class="project-state" *ngIf="item.isActive == null|| item.isActive == true">
+                                <span class="badge badge-success">Active</span>
+                            </td>
+                            <td class="project-state" *ngIf="item.isActive == false">
+                                <span class="badge badge-danger">Deactivated</span>
+                            </td>
+                            <td class="project-actions text-right">
+                                <a [routerLink]="['/portal/manage-planes',item.uniqueId,'detail']"  class="btn btn-primary btn-sm custom-button-reset">
+                                    <i class="fas fa-user-cog">
+                                    </i>
+                                    Manage Plane / Settings
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
           </div>
           <!-- /.card-body -->
         </div>

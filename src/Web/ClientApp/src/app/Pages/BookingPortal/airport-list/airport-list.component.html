@@ -21,15 +21,15 @@
   <section class="content">
 
       <!-- Default box -->
-      <div class="card custom-background">
-        <div class="card-header">
+      <div class="card">
+        <div class="card-header custom-background">
           <div class="row">
               <div class="col-md-8"><h3 class="card-title"><i class="fas fa-user-cog"></i> List of Airport</h3></div>
               <div class="col-md-4">
                   <div class="input-group">
-                      <input type="search" class="form-control form-control-lg" placeholder="Search Plane" style="font-size: 1.18rem!important;">
+                      <input (keyup.enter)="onEnter()" id="txtSearch" type="text" class="form-control form-control-lg" placeholder="Search Airport" style="font-size: 1.18rem!important;">
                       <div class="input-group-append">
-                          <button type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
+                          <button (click)="GetAirportByName()" type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
                               <i class="fa fa-search"></i>
                           </button>
                       </div>
@@ -38,7 +38,8 @@
           </div>
         </div>
         <div class="card-body p-0">
-          <table id="AirportTable" class="table table-striped projects">
+          <div class="tableFixHead">
+            <table id="AirportTable" class="table table-striped projects">
               <thead>
                   <tr>
                       <th>
@@ -75,6 +76,8 @@
                   </tr>
               </tbody>
           </table>
+          </div>
+          
         </div>
         <!-- /.card-body -->
       </div>
