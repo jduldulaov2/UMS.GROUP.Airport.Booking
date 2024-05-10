@@ -11,7 +11,7 @@ namespace UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAirportById;
 
 public record GetAirportByIdQuery : IRequest<Result<GetAirportByIdQueryDto>>
 {
-    public int? AirportId { get; set; }
+    public string? UniqueId { get; set; }
 }
 
 public class GetAirportByIdQueryHandler : IRequestHandler<GetAirportByIdQuery, Result<GetAirportByIdQueryDto>>
@@ -25,7 +25,7 @@ public class GetAirportByIdQueryHandler : IRequestHandler<GetAirportByIdQuery, R
 
     public async Task<Result<GetAirportByIdQueryDto>> Handle(GetAirportByIdQuery request, CancellationToken cancellationToken)
     {
-        var result = await _context.Airport.SingleOrDefaultAsync(i => i.Id == request.AirportId);
+        var result = await _context.Airport.SingleOrDefaultAsync(i => i.UniqueId == request.UniqueId);
 
         if (result != null)
         {

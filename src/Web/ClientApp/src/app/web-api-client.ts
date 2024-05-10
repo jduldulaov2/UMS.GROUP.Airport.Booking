@@ -17,7 +17,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IAirportClient {
     getAllAirportByCountry(countryId: number | null | undefined): Observable<GetAllAirportByCountryQueryDto[]>;
-    getAirportById(airportId: number | null | undefined): Observable<ResultOfGetAirportByIdQueryDto>;
+    getAirportById(uniqueId: string | null | undefined): Observable<ResultOfGetAirportByIdQueryDto>;
 }
 
 @Injectable({
@@ -90,10 +90,10 @@ export class AirportClient implements IAirportClient {
         return _observableOf(null as any);
     }
 
-    getAirportById(airportId: number | null | undefined): Observable<ResultOfGetAirportByIdQueryDto> {
+    getAirportById(uniqueId: string | null | undefined): Observable<ResultOfGetAirportByIdQueryDto> {
         let url_ = this.baseUrl + "/api/Airport/GetAirportById?";
-        if (airportId !== undefined && airportId !== null)
-            url_ += "AirportId=" + encodeURIComponent("" + airportId) + "&";
+        if (uniqueId !== undefined && uniqueId !== null)
+            url_ += "UniqueId=" + encodeURIComponent("" + uniqueId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -343,9 +343,140 @@ export class CountryClient implements ICountryClient {
     }
 }
 
+export interface IFlightsClient {
+    getAllFlights(): Observable<GetAllFlightQueryDto[]>;
+    getFlightById(uniqueId: string | null | undefined): Observable<GetFlightByIdQueryDto[]>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class FlightsClient implements IFlightsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    getAllFlights(): Observable<GetAllFlightQueryDto[]> {
+        let url_ = this.baseUrl + "/api/Flights/GetAllFlights";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllFlights(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllFlights(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetAllFlightQueryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetAllFlightQueryDto[]>;
+        }));
+    }
+
+    protected processGetAllFlights(response: HttpResponseBase): Observable<GetAllFlightQueryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetAllFlightQueryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getFlightById(uniqueId: string | null | undefined): Observable<GetFlightByIdQueryDto[]> {
+        let url_ = this.baseUrl + "/api/Flights/GetFlightById?";
+        if (uniqueId !== undefined && uniqueId !== null)
+            url_ += "UniqueId=" + encodeURIComponent("" + uniqueId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetFlightById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFlightById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetFlightByIdQueryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetFlightByIdQueryDto[]>;
+        }));
+    }
+
+    protected processGetFlightById(response: HttpResponseBase): Observable<GetFlightByIdQueryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetFlightByIdQueryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
 export interface IPlanesClient {
     getAllPlanes(): Observable<GetAllPlanesQueryDto[]>;
-    getPlaneById(planeId: number | null | undefined): Observable<ResultOfGetPlaneByIdQueryDto>;
+    getPlaneById(uniqueId: string | null | undefined): Observable<ResultOfGetPlaneByIdQueryDto>;
 }
 
 @Injectable({
@@ -416,10 +547,10 @@ export class PlanesClient implements IPlanesClient {
         return _observableOf(null as any);
     }
 
-    getPlaneById(planeId: number | null | undefined): Observable<ResultOfGetPlaneByIdQueryDto> {
+    getPlaneById(uniqueId: string | null | undefined): Observable<ResultOfGetPlaneByIdQueryDto> {
         let url_ = this.baseUrl + "/api/Planes/GetPlaneById?";
-        if (planeId !== undefined && planeId !== null)
-            url_ += "PlaneId=" + encodeURIComponent("" + planeId) + "&";
+        if (uniqueId !== undefined && uniqueId !== null)
+            url_ += "UniqueId=" + encodeURIComponent("" + uniqueId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1419,6 +1550,126 @@ export interface IGetAllCountryQueryDto {
     countryName?: string | undefined;
     countryCode?: string | undefined;
     description?: string | undefined;
+}
+
+export class GetAllFlightQueryDto implements IGetAllFlightQueryDto {
+    id?: number | undefined;
+    flightCode?: string | undefined;
+    airportId?: number | undefined;
+    planeId?: number | undefined;
+    airportName?: string | undefined;
+    planeName?: string | undefined;
+    uniqueId?: string | undefined;
+
+    constructor(data?: IGetAllFlightQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.flightCode = _data["flightCode"];
+            this.airportId = _data["airportId"];
+            this.planeId = _data["planeId"];
+            this.airportName = _data["airportName"];
+            this.planeName = _data["planeName"];
+            this.uniqueId = _data["uniqueId"];
+        }
+    }
+
+    static fromJS(data: any): GetAllFlightQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllFlightQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["flightCode"] = this.flightCode;
+        data["airportId"] = this.airportId;
+        data["planeId"] = this.planeId;
+        data["airportName"] = this.airportName;
+        data["planeName"] = this.planeName;
+        data["uniqueId"] = this.uniqueId;
+        return data;
+    }
+}
+
+export interface IGetAllFlightQueryDto {
+    id?: number | undefined;
+    flightCode?: string | undefined;
+    airportId?: number | undefined;
+    planeId?: number | undefined;
+    airportName?: string | undefined;
+    planeName?: string | undefined;
+    uniqueId?: string | undefined;
+}
+
+export class GetFlightByIdQueryDto implements IGetFlightByIdQueryDto {
+    id?: number | undefined;
+    flightCode?: string | undefined;
+    airportId?: number | undefined;
+    planeId?: number | undefined;
+    airportName?: string | undefined;
+    planeName?: string | undefined;
+    uniqueId?: string | undefined;
+
+    constructor(data?: IGetFlightByIdQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.flightCode = _data["flightCode"];
+            this.airportId = _data["airportId"];
+            this.planeId = _data["planeId"];
+            this.airportName = _data["airportName"];
+            this.planeName = _data["planeName"];
+            this.uniqueId = _data["uniqueId"];
+        }
+    }
+
+    static fromJS(data: any): GetFlightByIdQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetFlightByIdQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["flightCode"] = this.flightCode;
+        data["airportId"] = this.airportId;
+        data["planeId"] = this.planeId;
+        data["airportName"] = this.airportName;
+        data["planeName"] = this.planeName;
+        data["uniqueId"] = this.uniqueId;
+        return data;
+    }
+}
+
+export interface IGetFlightByIdQueryDto {
+    id?: number | undefined;
+    flightCode?: string | undefined;
+    airportId?: number | undefined;
+    planeId?: number | undefined;
+    airportName?: string | undefined;
+    planeName?: string | undefined;
+    uniqueId?: string | undefined;
 }
 
 export class GetAllPlanesQueryDto implements IGetAllPlanesQueryDto {

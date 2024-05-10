@@ -10,7 +10,7 @@ public class GetAirportByIdQueryValidator : AbstractValidator<GetAirportByIdQuer
 {
     public GetAirportByIdQueryValidator()
     {
-        RuleFor(x => x.AirportId)
-            .NotEmpty().WithMessage("AirportId is required.");
+        RuleFor(x => x.UniqueId)
+            .NotEmpty().WithMessage("UniqueId is required.");
     }
 }

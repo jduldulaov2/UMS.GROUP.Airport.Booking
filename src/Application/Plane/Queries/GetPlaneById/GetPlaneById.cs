@@ -9,7 +9,7 @@ using UMS.GROUP.Airport.Booking.Application.Common.Models.Enums;
 namespace UMS.GROUP.Airport.Booking.Application.Plane.Queries.GetPlaneById;
 public record GetPlaneByIdQuery : IRequest<Result<GetPlaneByIdQueryDto>>
 {
-    public int? PlaneId { get; set; }
+    public string? UniqueId { get; set; }
 }
 
 public class GetPlaneByIdQueryHandler : IRequestHandler<GetPlaneByIdQuery, Result<GetPlaneByIdQueryDto>>
@@ -23,7 +23,7 @@ public class GetPlaneByIdQueryHandler : IRequestHandler<GetPlaneByIdQuery, Resul
 
     public async Task<Result<GetPlaneByIdQueryDto>> Handle(GetPlaneByIdQuery request, CancellationToken cancellationToken)
     {
-        var result = await _context.Plane.SingleOrDefaultAsync(i => i.Id == request.PlaneId);
+        var result = await _context.Plane.SingleOrDefaultAsync(i => i.UniqueId == request.UniqueId);
 
         if (result != null)
         {
