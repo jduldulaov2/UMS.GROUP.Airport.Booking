@@ -345,6 +345,7 @@ export class CountryClient implements ICountryClient {
 
 export interface IPlanesClient {
     getAllPlanes(): Observable<GetAllPlanesQueryDto[]>;
+    getPlaneById(planeId: number | null | undefined): Observable<ResultOfGetPlaneByIdQueryDto>;
 }
 
 @Injectable({
@@ -405,6 +406,56 @@ export class PlanesClient implements IPlanesClient {
             else {
                 result200 = <any>null;
             }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getPlaneById(planeId: number | null | undefined): Observable<ResultOfGetPlaneByIdQueryDto> {
+        let url_ = this.baseUrl + "/api/Planes/GetPlaneById?";
+        if (planeId !== undefined && planeId !== null)
+            url_ += "PlaneId=" + encodeURIComponent("" + planeId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPlaneById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPlaneById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ResultOfGetPlaneByIdQueryDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ResultOfGetPlaneByIdQueryDto>;
+        }));
+    }
+
+    protected processGetPlaneById(response: HttpResponseBase): Observable<ResultOfGetPlaneByIdQueryDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ResultOfGetPlaneByIdQueryDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1418,6 +1469,106 @@ export class GetAllPlanesQueryDto implements IGetAllPlanesQueryDto {
 }
 
 export interface IGetAllPlanesQueryDto {
+    id?: number | undefined;
+    airlineName?: string | undefined;
+    code?: string | undefined;
+    model?: string | undefined;
+    uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
+}
+
+export class ResultOfGetPlaneByIdQueryDto implements IResultOfGetPlaneByIdQueryDto {
+    data?: GetPlaneByIdQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+
+    constructor(data?: IResultOfGetPlaneByIdQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.data = _data["data"] ? GetPlaneByIdQueryDto.fromJS(_data["data"]) : <any>undefined;
+            this.message = _data["message"];
+            this.resultType = _data["resultType"];
+        }
+    }
+
+    static fromJS(data: any): ResultOfGetPlaneByIdQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultOfGetPlaneByIdQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["message"] = this.message;
+        data["resultType"] = this.resultType;
+        return data;
+    }
+}
+
+export interface IResultOfGetPlaneByIdQueryDto {
+    data?: GetPlaneByIdQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+}
+
+export class GetPlaneByIdQueryDto implements IGetPlaneByIdQueryDto {
+    id?: number | undefined;
+    airlineName?: string | undefined;
+    code?: string | undefined;
+    model?: string | undefined;
+    uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
+
+    constructor(data?: IGetPlaneByIdQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.airlineName = _data["airlineName"];
+            this.code = _data["code"];
+            this.model = _data["model"];
+            this.uniqueId = _data["uniqueId"];
+            this.isActive = _data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): GetPlaneByIdQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPlaneByIdQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["airlineName"] = this.airlineName;
+        data["code"] = this.code;
+        data["model"] = this.model;
+        data["uniqueId"] = this.uniqueId;
+        data["isActive"] = this.isActive;
+        return data;
+    }
+}
+
+export interface IGetPlaneByIdQueryDto {
     id?: number | undefined;
     airlineName?: string | undefined;
     code?: string | undefined;

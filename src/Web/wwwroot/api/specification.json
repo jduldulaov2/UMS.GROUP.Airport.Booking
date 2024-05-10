@@ -208,6 +208,38 @@
         }
       }
     },
+    "/api/Planes/GetPlaneById": {
+      "get": {
+        "tags": [
+          "Planes"
+        ],
+        "operationId": "GetPlaneById",
+        "parameters": [
+          {
+            "name": "PlaneId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfGetPlaneByIdQueryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/SystemEnvironments": {
       "get": {
         "tags": [
@@ -750,6 +782,57 @@
         }
       },
       "GetAllPlanesQueryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "airlineName": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "uniqueId": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfGetPlaneByIdQueryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetPlaneByIdQueryDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "GetPlaneByIdQueryDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
