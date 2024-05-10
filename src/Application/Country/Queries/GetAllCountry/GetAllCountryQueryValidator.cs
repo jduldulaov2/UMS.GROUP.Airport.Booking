@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace UMS.GROUP.Airport.Booking.Application.Country.Queries.GetAllCountry;
-public class Country
+public class GetAllCountryQueryValidator
 {
+
 }

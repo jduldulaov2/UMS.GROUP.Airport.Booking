@@ -15,6 +15,132 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
+export interface IAirportClient {
+    getAllAirportByCountry(countryId: number | null | undefined): Observable<GetAllAirportByCountryQueryDto[]>;
+    getAirportById(airportId: number | null | undefined): Observable<ResultOfGetAirportByIdQueryDto>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AirportClient implements IAirportClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    getAllAirportByCountry(countryId: number | null | undefined): Observable<GetAllAirportByCountryQueryDto[]> {
+        let url_ = this.baseUrl + "/api/Airport/GetAllAirportByCountry?";
+        if (countryId !== undefined && countryId !== null)
+            url_ += "CountryId=" + encodeURIComponent("" + countryId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllAirportByCountry(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllAirportByCountry(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetAllAirportByCountryQueryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetAllAirportByCountryQueryDto[]>;
+        }));
+    }
+
+    protected processGetAllAirportByCountry(response: HttpResponseBase): Observable<GetAllAirportByCountryQueryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetAllAirportByCountryQueryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getAirportById(airportId: number | null | undefined): Observable<ResultOfGetAirportByIdQueryDto> {
+        let url_ = this.baseUrl + "/api/Airport/GetAirportById?";
+        if (airportId !== undefined && airportId !== null)
+            url_ += "AirportId=" + encodeURIComponent("" + airportId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAirportById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAirportById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ResultOfGetAirportByIdQueryDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ResultOfGetAirportByIdQueryDto>;
+        }));
+    }
+
+    protected processGetAirportById(response: HttpResponseBase): Observable<ResultOfGetAirportByIdQueryDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ResultOfGetAirportByIdQueryDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
 export interface IAuthClient {
     login(userName: string | null | undefined, password: string | null | undefined, isPersistent: boolean, lockOutOnFailure: boolean): Observable<ResultOfLoginDto>;
     logOut(userId: string | null | undefined): Observable<ResultOfLogoutDto>;
@@ -133,6 +259,152 @@ export class AuthClient implements IAuthClient {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = ResultOfLogoutDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+export interface ICountryClient {
+    getCountry(): Observable<GetAllCountryQueryDto[]>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class CountryClient implements ICountryClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    getCountry(): Observable<GetAllCountryQueryDto[]> {
+        let url_ = this.baseUrl + "/api/Country";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCountry(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCountry(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetAllCountryQueryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetAllCountryQueryDto[]>;
+        }));
+    }
+
+    protected processGetCountry(response: HttpResponseBase): Observable<GetAllCountryQueryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetAllCountryQueryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+export interface IPlanesClient {
+    getAllPlanes(): Observable<GetAllPlanesQueryDto[]>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class PlanesClient implements IPlanesClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    getAllPlanes(): Observable<GetAllPlanesQueryDto[]> {
+        let url_ = this.baseUrl + "/api/Planes/GetAllPlanes";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllPlanes(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllPlanes(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetAllPlanesQueryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetAllPlanesQueryDto[]>;
+        }));
+    }
+
+    protected processGetAllPlanes(response: HttpResponseBase): Observable<GetAllPlanesQueryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetAllPlanesQueryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -651,6 +923,193 @@ export class UsersClient implements IUsersClient {
     }
 }
 
+export class GetAllAirportByCountryQueryDto implements IGetAllAirportByCountryQueryDto {
+    id?: number | undefined;
+    uniqueId?: string | undefined;
+    airportName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    countryId?: number | undefined;
+
+    constructor(data?: IGetAllAirportByCountryQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.uniqueId = _data["uniqueId"];
+            this.airportName = _data["airportName"];
+            this.street = _data["street"];
+            this.city = _data["city"];
+            this.province = _data["province"];
+            this.region = _data["region"];
+            this.zipCode = _data["zipCode"];
+            this.countryId = _data["countryId"];
+        }
+    }
+
+    static fromJS(data: any): GetAllAirportByCountryQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllAirportByCountryQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["uniqueId"] = this.uniqueId;
+        data["airportName"] = this.airportName;
+        data["street"] = this.street;
+        data["city"] = this.city;
+        data["province"] = this.province;
+        data["region"] = this.region;
+        data["zipCode"] = this.zipCode;
+        data["countryId"] = this.countryId;
+        return data;
+    }
+}
+
+export interface IGetAllAirportByCountryQueryDto {
+    id?: number | undefined;
+    uniqueId?: string | undefined;
+    airportName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    countryId?: number | undefined;
+}
+
+export class ResultOfGetAirportByIdQueryDto implements IResultOfGetAirportByIdQueryDto {
+    data?: GetAirportByIdQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+
+    constructor(data?: IResultOfGetAirportByIdQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.data = _data["data"] ? GetAirportByIdQueryDto.fromJS(_data["data"]) : <any>undefined;
+            this.message = _data["message"];
+            this.resultType = _data["resultType"];
+        }
+    }
+
+    static fromJS(data: any): ResultOfGetAirportByIdQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultOfGetAirportByIdQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["message"] = this.message;
+        data["resultType"] = this.resultType;
+        return data;
+    }
+}
+
+export interface IResultOfGetAirportByIdQueryDto {
+    data?: GetAirportByIdQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+}
+
+export class GetAirportByIdQueryDto implements IGetAirportByIdQueryDto {
+    id?: number | undefined;
+    uniqueId?: string | undefined;
+    airportName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    countryId?: number | undefined;
+
+    constructor(data?: IGetAirportByIdQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.uniqueId = _data["uniqueId"];
+            this.airportName = _data["airportName"];
+            this.street = _data["street"];
+            this.city = _data["city"];
+            this.province = _data["province"];
+            this.region = _data["region"];
+            this.zipCode = _data["zipCode"];
+            this.countryId = _data["countryId"];
+        }
+    }
+
+    static fromJS(data: any): GetAirportByIdQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAirportByIdQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["uniqueId"] = this.uniqueId;
+        data["airportName"] = this.airportName;
+        data["street"] = this.street;
+        data["city"] = this.city;
+        data["province"] = this.province;
+        data["region"] = this.region;
+        data["zipCode"] = this.zipCode;
+        data["countryId"] = this.countryId;
+        return data;
+    }
+}
+
+export interface IGetAirportByIdQueryDto {
+    id?: number | undefined;
+    uniqueId?: string | undefined;
+    airportName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    countryId?: number | undefined;
+}
+
+export enum ResultType {
+    Success = 1,
+    Warning = 2,
+    Error = 3,
+    Information = 4,
+}
+
 export class ResultOfLoginDto implements IResultOfLoginDto {
     data?: LoginDto | undefined;
     message?: string;
@@ -779,13 +1238,6 @@ export interface ILoginDto {
     contactNumber?: string | undefined;
 }
 
-export enum ResultType {
-    Success = 1,
-    Warning = 2,
-    Error = 3,
-    Information = 4,
-}
-
 export class ResultOfLogoutDto implements IResultOfLogoutDto {
     data?: LogoutDto | undefined;
     message?: string;
@@ -868,6 +1320,110 @@ export class LogoutDto implements ILogoutDto {
 export interface ILogoutDto {
     userId?: string | undefined;
     time?: Date | undefined;
+}
+
+export class GetAllCountryQueryDto implements IGetAllCountryQueryDto {
+    id?: number | undefined;
+    countryName?: string | undefined;
+    countryCode?: string | undefined;
+    description?: string | undefined;
+
+    constructor(data?: IGetAllCountryQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.countryName = _data["countryName"];
+            this.countryCode = _data["countryCode"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): GetAllCountryQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllCountryQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["countryName"] = this.countryName;
+        data["countryCode"] = this.countryCode;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export interface IGetAllCountryQueryDto {
+    id?: number | undefined;
+    countryName?: string | undefined;
+    countryCode?: string | undefined;
+    description?: string | undefined;
+}
+
+export class GetAllPlanesQueryDto implements IGetAllPlanesQueryDto {
+    id?: number | undefined;
+    airlineName?: string | undefined;
+    code?: string | undefined;
+    model?: string | undefined;
+    uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
+
+    constructor(data?: IGetAllPlanesQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.airlineName = _data["airlineName"];
+            this.code = _data["code"];
+            this.model = _data["model"];
+            this.uniqueId = _data["uniqueId"];
+            this.isActive = _data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): GetAllPlanesQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllPlanesQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["airlineName"] = this.airlineName;
+        data["code"] = this.code;
+        data["model"] = this.model;
+        data["uniqueId"] = this.uniqueId;
+        data["isActive"] = this.isActive;
+        return data;
+    }
+}
+
+export interface IGetAllPlanesQueryDto {
+    id?: number | undefined;
+    airlineName?: string | undefined;
+    code?: string | undefined;
+    model?: string | undefined;
+    uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
 }
 
 export class ResultOfSystemEnvironmentQueryDto implements IResultOfSystemEnvironmentQueryDto {

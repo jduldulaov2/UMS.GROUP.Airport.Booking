@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace UMS.GROUP.Airport.Booking.Application.Country.Queries.GetAllCountry;
-public class CountryQueryDto
+public class GetAllCountryQueryDto
 {
     public int? Id { get; set; }
 
