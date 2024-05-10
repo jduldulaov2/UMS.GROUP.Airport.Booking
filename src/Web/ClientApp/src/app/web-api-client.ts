@@ -270,6 +270,137 @@ export class AuthClient implements IAuthClient {
     }
 }
 
+export interface IBookingsClient {
+    getAllBookings(): Observable<GetAllBookingQueryDto[]>;
+    getBookingById(uniqueId: string | null | undefined): Observable<GetBookingByIdQueryDto[]>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class BookingsClient implements IBookingsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    getAllBookings(): Observable<GetAllBookingQueryDto[]> {
+        let url_ = this.baseUrl + "/api/Bookings/GetAllBookings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBookings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBookings(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetAllBookingQueryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetAllBookingQueryDto[]>;
+        }));
+    }
+
+    protected processGetAllBookings(response: HttpResponseBase): Observable<GetAllBookingQueryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetAllBookingQueryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getBookingById(uniqueId: string | null | undefined): Observable<GetBookingByIdQueryDto[]> {
+        let url_ = this.baseUrl + "/api/Bookings/GetBookingById?";
+        if (uniqueId !== undefined && uniqueId !== null)
+            url_ += "UniqueId=" + encodeURIComponent("" + uniqueId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBookingById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBookingById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetBookingByIdQueryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetBookingByIdQueryDto[]>;
+        }));
+    }
+
+    protected processGetBookingById(response: HttpResponseBase): Observable<GetBookingByIdQueryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetBookingByIdQueryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
 export interface ICountryClient {
     getCountry(): Observable<GetAllCountryQueryDto[]>;
 }
@@ -1502,6 +1633,222 @@ export class LogoutDto implements ILogoutDto {
 export interface ILogoutDto {
     userId?: string | undefined;
     time?: Date | undefined;
+}
+
+export class GetAllBookingQueryDto implements IGetAllBookingQueryDto {
+    id?: number | undefined;
+    flightId?: number | undefined;
+    flightCode?: string | undefined;
+    flightDate?: string | undefined;
+    airportName?: string | undefined;
+    planeName?: string | undefined;
+    origin?: string | undefined;
+    destination?: string | undefined;
+    avatar?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    middleName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    contactNumber?: string | undefined;
+    uniqueId?: string | undefined;
+
+    constructor(data?: IGetAllBookingQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.flightId = _data["flightId"];
+            this.flightCode = _data["flightCode"];
+            this.flightDate = _data["flightDate"];
+            this.airportName = _data["airportName"];
+            this.planeName = _data["planeName"];
+            this.origin = _data["origin"];
+            this.destination = _data["destination"];
+            this.avatar = _data["avatar"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.middleName = _data["middleName"];
+            this.street = _data["street"];
+            this.city = _data["city"];
+            this.province = _data["province"];
+            this.region = _data["region"];
+            this.zipCode = _data["zipCode"];
+            this.contactNumber = _data["contactNumber"];
+            this.uniqueId = _data["uniqueId"];
+        }
+    }
+
+    static fromJS(data: any): GetAllBookingQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllBookingQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["flightId"] = this.flightId;
+        data["flightCode"] = this.flightCode;
+        data["flightDate"] = this.flightDate;
+        data["airportName"] = this.airportName;
+        data["planeName"] = this.planeName;
+        data["origin"] = this.origin;
+        data["destination"] = this.destination;
+        data["avatar"] = this.avatar;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["middleName"] = this.middleName;
+        data["street"] = this.street;
+        data["city"] = this.city;
+        data["province"] = this.province;
+        data["region"] = this.region;
+        data["zipCode"] = this.zipCode;
+        data["contactNumber"] = this.contactNumber;
+        data["uniqueId"] = this.uniqueId;
+        return data;
+    }
+}
+
+export interface IGetAllBookingQueryDto {
+    id?: number | undefined;
+    flightId?: number | undefined;
+    flightCode?: string | undefined;
+    flightDate?: string | undefined;
+    airportName?: string | undefined;
+    planeName?: string | undefined;
+    origin?: string | undefined;
+    destination?: string | undefined;
+    avatar?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    middleName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    contactNumber?: string | undefined;
+    uniqueId?: string | undefined;
+}
+
+export class GetBookingByIdQueryDto implements IGetBookingByIdQueryDto {
+    id?: number | undefined;
+    flightId?: number | undefined;
+    flightCode?: string | undefined;
+    flightDate?: string | undefined;
+    airportName?: string | undefined;
+    planeName?: string | undefined;
+    origin?: string | undefined;
+    destination?: string | undefined;
+    avatar?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    middleName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    contactNumber?: string | undefined;
+    uniqueId?: string | undefined;
+
+    constructor(data?: IGetBookingByIdQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.flightId = _data["flightId"];
+            this.flightCode = _data["flightCode"];
+            this.flightDate = _data["flightDate"];
+            this.airportName = _data["airportName"];
+            this.planeName = _data["planeName"];
+            this.origin = _data["origin"];
+            this.destination = _data["destination"];
+            this.avatar = _data["avatar"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.middleName = _data["middleName"];
+            this.street = _data["street"];
+            this.city = _data["city"];
+            this.province = _data["province"];
+            this.region = _data["region"];
+            this.zipCode = _data["zipCode"];
+            this.contactNumber = _data["contactNumber"];
+            this.uniqueId = _data["uniqueId"];
+        }
+    }
+
+    static fromJS(data: any): GetBookingByIdQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetBookingByIdQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["flightId"] = this.flightId;
+        data["flightCode"] = this.flightCode;
+        data["flightDate"] = this.flightDate;
+        data["airportName"] = this.airportName;
+        data["planeName"] = this.planeName;
+        data["origin"] = this.origin;
+        data["destination"] = this.destination;
+        data["avatar"] = this.avatar;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["middleName"] = this.middleName;
+        data["street"] = this.street;
+        data["city"] = this.city;
+        data["province"] = this.province;
+        data["region"] = this.region;
+        data["zipCode"] = this.zipCode;
+        data["contactNumber"] = this.contactNumber;
+        data["uniqueId"] = this.uniqueId;
+        return data;
+    }
+}
+
+export interface IGetBookingByIdQueryDto {
+    id?: number | undefined;
+    flightId?: number | undefined;
+    flightCode?: string | undefined;
+    flightDate?: string | undefined;
+    airportName?: string | undefined;
+    planeName?: string | undefined;
+    origin?: string | undefined;
+    destination?: string | undefined;
+    avatar?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    middleName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    contactNumber?: string | undefined;
+    uniqueId?: string | undefined;
 }
 
 export class GetAllCountryQueryDto implements IGetAllCountryQueryDto {
