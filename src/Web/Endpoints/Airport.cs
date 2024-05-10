@@ -1,6 +1,7 @@
 ﻿
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GelAllAirportByCountry;
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAirportById;
+using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAirportByName;
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAllAirport;
 using UMS.GROUP.Airport.Booking.Application.Common.Models;
 
@@ -14,6 +15,7 @@ public class Airport : EndpointGroupBase
             .MapGet(GetAllAirportByCountry, "GetAllAirportByCountry")
             .MapGet(GetAirportById, "GetAirportById")
             .MapGet(GetAllAirport, "GetAllAirport")
+            .MapGet(GetAirportByName, "GetAirportByName")
             ;
     }
 
@@ -29,6 +31,11 @@ public class Airport : EndpointGroupBase
     }
 
     public async Task<List<GetAllAirportQueryDto>> GetAllAirport(ISender sender, [AsParameters] GetAllAirportQuery query)
+    {
+        return await sender.Send(query);
+    }
+
+    public async Task<List<GetAirportByNameQueryDto>> GetAirportByName(ISender sender, [AsParameters] GetAirportByNameQuery query)
     {
         return await sender.Send(query);
     }

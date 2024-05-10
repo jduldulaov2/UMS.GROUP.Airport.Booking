@@ -95,6 +95,40 @@
         }
       }
     },
+    "/api/Airport/GetAirportByName": {
+      "get": {
+        "tags": [
+          "Airport"
+        ],
+        "operationId": "GetAirportByName",
+        "parameters": [
+          {
+            "name": "AirportName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAirportByNameQueryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Auth/Login": {
       "get": {
         "tags": [
@@ -241,6 +275,40 @@
         }
       }
     },
+    "/api/Bookings/GetBookingByName": {
+      "get": {
+        "tags": [
+          "Bookings"
+        ],
+        "operationId": "GetBookingByName",
+        "parameters": [
+          {
+            "name": "LastName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetBookingByNameQueryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Country": {
       "get": {
         "tags": [
@@ -321,6 +389,40 @@
         }
       }
     },
+    "/api/Flights/GetFlightByName": {
+      "get": {
+        "tags": [
+          "Flights"
+        ],
+        "operationId": "GetFlightByName",
+        "parameters": [
+          {
+            "name": "FlightCode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetFlightNameQueryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Planes/GetAllPlanes": {
       "get": {
         "tags": [
@@ -368,6 +470,40 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResultOfGetPlaneByIdQueryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Planes/GetPlaneByName": {
+      "get": {
+        "tags": [
+          "Planes"
+        ],
+        "operationId": "GetPlaneByName",
+        "parameters": [
+          {
+            "name": "AirlineName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPlaneByNameQueryDto"
+                  }
                 }
               }
             }
@@ -828,6 +964,54 @@
           }
         }
       },
+      "GetAirportByNameQueryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "uniqueId": {
+            "type": "string",
+            "nullable": true
+          },
+          "airportName": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryName": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "ResultOfLoginDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1109,6 +1293,90 @@
           }
         }
       },
+      "GetBookingByNameQueryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "flightId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "flightCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "flightDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "airportName": {
+            "type": "string",
+            "nullable": true
+          },
+          "planeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "origin": {
+            "type": "string",
+            "nullable": true
+          },
+          "destination": {
+            "type": "string",
+            "nullable": true
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "uniqueId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "GetAllCountryQueryDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1206,6 +1474,43 @@
           }
         }
       },
+      "GetFlightNameQueryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "flightCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "airportId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "planeId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "airportName": {
+            "type": "string",
+            "nullable": true
+          },
+          "planeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "uniqueId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "GetAllPlanesQueryDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1258,6 +1563,37 @@
         }
       },
       "GetPlaneByIdQueryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "airlineName": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "uniqueId": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "GetPlaneByNameQueryDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
