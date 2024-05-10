@@ -17,6 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     public DbSet<Flight> Flight => Set<Flight>();
 
+    public DbSet<PassengerBooking> PassengerBooking => Set<PassengerBooking>();
+
     IQueryable<IdentityUser> IApplicationDbContext.Users => this.Users;
     protected override void OnModelCreating(ModelBuilder builder)
     {

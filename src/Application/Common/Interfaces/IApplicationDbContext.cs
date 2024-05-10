@@ -14,5 +14,7 @@ public interface IApplicationDbContext
 
     DbSet<Flight> Flight { get; }
 
+    DbSet<PassengerBooking> PassengerBooking { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
