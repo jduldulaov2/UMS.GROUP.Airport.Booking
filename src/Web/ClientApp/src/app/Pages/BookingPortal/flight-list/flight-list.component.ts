@@ -36,7 +36,7 @@ export class FlightListComponent {
         "pageLength": 10
       });
 
-    }, 1000);
+    }, 400);
 
   }
 

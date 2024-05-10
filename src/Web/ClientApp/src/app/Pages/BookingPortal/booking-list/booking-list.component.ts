@@ -33,10 +33,10 @@ export class BookingListComponent {
         "info": true,
         "autoWidth": false,
         "responsive": true,
-        "pageLength": 10
+        "pageLength": 7
       });
 
-    }, 1000);
+    }, 400);
 
   }
 

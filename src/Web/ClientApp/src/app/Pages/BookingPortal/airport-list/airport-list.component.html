@@ -1,250 +1,86 @@
+
 <div class="content-wrapper">
     
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">List of Airports <span style="color: red; font-size: 20px;">(100)</span></h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item">User Dashboard</li>
-              <li class="breadcrumb-item active">Select Category</li>
-            </ol>
-          </div>
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">List of Airport</h1>
+        </div>
+        <div  class="col-sm-6" style="text-align: right;">
+          <a [routerLink]="['/portal/manage-flights/register-flight']"  class="btn btn-primary btn-sm" style="width: 232px!important; ">
+              <i class="fas fa-user-plus">
+              </i>
+              Register Airport
+          </a>
         </div>
       </div>
     </div>
-
-    <section class="content">
-
-      <div class="container-fluid">
-        <div class="row">
-          <div class="input-group">
-            <input type="search" class="form-control form-control-lg" placeholder="Search Airport" style="font-size: 1.18rem!important;">
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
-                    <i class="fa fa-search"></i>
-                </button>
-            </div>
-        </div>
-        </div>
-    </div>
-    </section>
-
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="invoice p-3 mb-3">
-              <div class="row">
-                <div class="col-12">
-                  <h4>
-                    <i class="fas fa-globe"></i> Philippines
-                  </h4>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-12">
-                    <div class="card-footer bg-white">
-                            <div class="row mailbox-attachments d-flex align-items-stretch">
-                                <div class="col-md-2" [routerLink]="['/portal/manage-airport/10001/detail']" >
-                                        <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                                        <div class="mailbox-attachment-info custom-background">
-                                        <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> NAIA International Airport</a>
-                                        </div>
-                                </div>
-                                <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                        <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                      
-                                        <div class="mailbox-attachment-info custom-background">
-                                          <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Clark Air Base Airport</a>
-                                        </div>
-                                </div>
-                                <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                        <span class="mailbox-attachment-icon custom-media-header"><i class="fas fa-search" style="color: #d9d9d9;"></i></span>
-                                        <div class="mailbox-attachment-info custom-background">
-                                          <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Davao City International Airport</a>
-                                        </div>
-                                </div>
-                                <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                        <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                      
-                                        <div class="mailbox-attachment-info custom-background">
-                                          <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Ilo Ilo Airport</a>
-                                        </div>
-                                </div>
-                                <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                        <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;"class="fas fa-search"></i></span>
-                                        <div class="mailbox-attachment-info custom-background">
-                                          <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Cagayan de Oro Airport</a>
-                                        </div>
-                                </div>
-                                <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                        <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                      
-                                        <div class="mailbox-attachment-info custom-background">
-                                          <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Ozamis City Airport</a>
-                                        </div>
-                                </div>
-                            </div>
-                      </div>
-                </div>
-            </div>
-        </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <div class="invoice p-3 mb-3">
-                <div class="row">
-                  <div class="col-12">
-                    <h4>
-                      <i class="fas fa-globe"></i> United States of America
-                    </h4>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12 col-sm-12 col-12">
-                      <div class="card-footer bg-white">
-                              <div class="row mailbox-attachments d-flex align-items-stretch">
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                                          <div class="mailbox-attachment-info custom-background">
-                                          <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Phoenix Sky Harbor International Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                        
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Northwest Arkansas National Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i class="fas fa-search" style="color: #d9d9d9;"></i></span>
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> California Redwood Coast–Humboldt County Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                        
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> San Francisco International Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;"class="fas fa-search"></i></span>
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Denver International Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                        
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Bradley International Airport</a>
-                                          </div>
-                                  </div>
-                              </div>
-                        </div>
-                  </div>
-              </div>
-          </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <div class="invoice p-3 mb-3">
-                <div class="row">
-                  <div class="col-12">
-                    <h4>
-                      <i class="fas fa-globe"></i> Middle East
-                    </h4>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12 col-sm-12 col-12">
-                      <div class="card-footer bg-white">
-                              <div class="row mailbox-attachments d-flex align-items-stretch">
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                                          <div class="mailbox-attachment-info custom-background">
-                                          <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Dubai International Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                        
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Istanbul Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i class="fas fa-search" style="color: #d9d9d9;"></i></span>
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Hamad International Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                        
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> King Abdulaziz International Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;"class="fas fa-search"></i></span>
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> King Khalid International Airport</a>
-                                          </div>
-                                  </div>
-                                  <div [routerLink]="['/portal/upload-media/options/0000UniqueCodeHere000/type']" class="col-md-2">
-                                          <span class="mailbox-attachment-icon custom-media-header"><i style="color: #d9d9d9;" class="fas fa-search"></i></span>
-                        
-                                          <div class="mailbox-attachment-info custom-background">
-                                            <a href="#" class="mailbox-attachment-name" style="color: white!important;"><i class="fas fa-arrow-right"></i> Abu Dhabi International Airport</a>
-                                          </div>
-                                  </div>
-                              </div>
-                        </div>
-                  </div>
-              </div>
-          </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="content" style="text-align: right; color: blue;">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <div class="invoice p-3 mb-3">
-                <div class="row">
-                  <div class="col-12">
-                    <button type="button" class="btn btn-success" [routerLink]="['/portal/upload-media/options/all/type']" data-method="move" data-option="0" data-second-option="-10" title="Move Up">
-                        <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;move&quot;, 0, -10)">
-                          <span class="fa fa-arrow-right"></span><span style="margin-left: 5px;">Add Airport</span>
-                        </span>
-                      </button>
-                  </div>
-                </div>
-          </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
   </div>
+
+  <section class="content">
+
+      <!-- Default box -->
+      <div class="card custom-background">
+        <div class="card-header">
+          <div class="row">
+              <div class="col-md-8"><h3 class="card-title"><i class="fas fa-user-cog"></i> List of Airport</h3></div>
+              <div class="col-md-4">
+                  <div class="input-group">
+                      <input type="search" class="form-control form-control-lg" placeholder="Search Plane" style="font-size: 1.18rem!important;">
+                      <div class="input-group-append">
+                          <button type="submit" class="btn btn-lg btn-default" style="background: #dee5eb;border-color: #ddd;color: #444; padding: 9px 30px !important;">
+                              <i class="fa fa-search"></i>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table id="flightTable" class="table table-striped projects">
+              <thead>
+                  <tr>
+                      <th>
+                          Airport Name
+                      </th>
+                      <th>
+                          Country
+                      </th>
+                      <th style="width: 8%" class="text-center">
+                        Status
+                    </th>
+                      <th style="width: 20%">
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>
+                          Airport Name
+                      </td>
+                      <td>
+                          Country
+                      </td>
+                      <td class="project-state">
+                          <span class="badge badge-success">Active</span>
+                      </td>
+                      <td class="project-actions text-right">
+                          <a  class="btn btn-primary btn-sm custom-button-reset">
+                              <i class="fas fa-user-cog">
+                              </i>
+                              Manage Flight / Settings
+                          </a>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+
+</div>
+

@@ -5,16 +5,15 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">List of Bookings</h1>
+            <h1 class="m-0">List of Bookings (Most Recent)</h1>
           </div>
           <div  class="col-sm-6" style="text-align: right;">
             <a [routerLink]="['/portal/manage-bookings']"  class="btn btn-primary btn-sm" style="width: 232px!important; ">
                 <i class="fas fa-user-plus">
                 </i>
-                Go to All Bookings
+                Go to Bookings
             </a>
           </div>
-
         </div>
       </div>
     </div>
@@ -22,7 +21,7 @@
     <section class="content">
 
         <!-- Default box -->
-        <div class="card">
+        <div class="card custom-background">
           <div class="card-header">
             <div class="row">
                 <div class="col-md-8"><h3 class="card-title"><i class="fas fa-user-cog"></i> List of Bookings</h3></div>
@@ -39,7 +38,7 @@
             </div>
           </div>
           <div class="card-body p-0">
-            <table class="table table-striped projects">
+            <table id="BookingTable" class="table table-striped projects">
                 <thead>
                     <tr>
                         <th style="width: 1%">
@@ -58,36 +57,42 @@
                             Plane
                         </th>
                         <th>
+                            Flight Date
+                        </th>
+                        <th>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let item of bookingDto">
                         <td>
-                            <div class="members-avatar" style="background: #E93B8B;">		
-                                MM
+                            <div class="members-avatar" style="background: #20c997;">		
+                                {{item.avatar}}
                             </div>
                         </td>
                         <td>
                             <a style="font-weight: bold;">
-                                Ma. Michaela Alejandria
+                                {{item.firstName}} {{item.lastName}}
                             </a>
                             <br/>
                             <small style="color: #6c757d;">
-                               Michaela.Alejandria@dbresults.com.au
+                                {{item.contactNumber}}
                             </small>
                         </td>
                         <td>
-                            YU2387f
+                            {{item.flightCode}}
                         </td>
                         <td>
-                            NAIA International Airport
+                            {{item.airportName}}
                         </td>
                         <td>
-                            Philippine Airlines
+                            {{item.planeName}}
+                        </td>
+                        <td>
+                            {{item.flightDate}}
                         </td>
                         <td class="project-actions text-right">
-                            <a [routerLink]="['/portal/manage-bookings/1001/detail']"  class="btn btn-primary btn-sm custom-button-reset">
+                            <a [routerLink]="['/portal/manage-bookings',item.uniqueId,'detail']" class="btn btn-primary btn-sm custom-button-reset">
                                 <i class="fas fa-user-cog">
                                 </i>
                                 Manage Booking

@@ -36,7 +36,7 @@ export class PlaneListComponent {
         "pageLength": 10
       });
 
-    }, 1000);
+    }, 400);
   }
 
   getPlaneList(): void {
