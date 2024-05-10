@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="card-body p-0">
-            <table class="table table-striped projects">
+            <table id="BookingTable" class="table table-striped projects">
                 <thead>
                     <tr>
                         <th style="width: 1%">
@@ -64,32 +64,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let item of bookingDto">
                         <td>
-                            <div class="members-avatar" style="background: #E93B8B;">		
-                                MM
+                            <div class="members-avatar" style="background: #20c997;">		
+                                {{item.avatar}}
                             </div>
                         </td>
                         <td>
                             <a style="font-weight: bold;">
-                                Ma. Michaela Alejandria
+                                {{item.firstName}} {{item.lastName}}
                             </a>
                             <br/>
                             <small style="color: #6c757d;">
-                               Michaela.Alejandria@dbresults.com.au
+                                {{item.contactNumber}}
                             </small>
                         </td>
                         <td>
-                            YU2387f
+                            {{item.flightCode}}
                         </td>
                         <td>
-                            NAIA International Airport
+                            {{item.airportName}}
                         </td>
                         <td>
-                            Philippine Airlines
+                            {{item.planeName}}
                         </td>
                         <td>
-                            05/11/2024 (10:00PM)
+                            {{item.flightDate}}
                         </td>
                         <td class="project-actions text-right">
                             <a [routerLink]="['/portal/manage-bookings/1001/detail']"  class="btn btn-primary btn-sm custom-button-reset">

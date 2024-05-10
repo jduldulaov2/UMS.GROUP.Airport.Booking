@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,7 +48,7 @@ public class GetMediaDetailQueryHandler : IRequestHandler<GetBookingByIdQuery, L
                           FlightId = booking.FlightId,
                           UniqueId = booking.UniqueId,
                           ZipCode = booking.ZipCode,
-                          Avatar = "GG"
+                          Avatar = StringInfo.GetNextTextElement(booking.FirstName!, 0).ToUpper() + "" + StringInfo.GetNextTextElement(booking.LastName!, 0).ToUpper(),
                       }).ToListAsync();
     }
 }
