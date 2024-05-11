@@ -541,7 +541,7 @@ export class AuthClient implements IAuthClient {
 
 export interface IBookingsClient {
     getAllBookings(): Observable<GetAllBookingQueryDto[]>;
-    getBookingById(uniqueId: string | null | undefined): Observable<GetBookingByIdQueryDto[]>;
+    getBookingById(uniqueId: string | null | undefined): Observable<ResultOfGetBookingByIdQueryDto>;
     getBookingByName(lastName: string | null | undefined): Observable<GetBookingByNameQueryDto[]>;
     createBooking(command: CreateBookingCommand): Observable<ResultOfCreateBookingCommandDto>;
     updateBooking(command: UpdateBookingCommand): Observable<ResultOfUpdateBookingCommandDto>;
@@ -615,7 +615,7 @@ export class BookingsClient implements IBookingsClient {
         return _observableOf(null as any);
     }
 
-    getBookingById(uniqueId: string | null | undefined): Observable<GetBookingByIdQueryDto[]> {
+    getBookingById(uniqueId: string | null | undefined): Observable<ResultOfGetBookingByIdQueryDto> {
         let url_ = this.baseUrl + "/api/Bookings/GetBookingById?";
         if (uniqueId !== undefined && uniqueId !== null)
             url_ += "UniqueId=" + encodeURIComponent("" + uniqueId) + "&";
@@ -636,14 +636,14 @@ export class BookingsClient implements IBookingsClient {
                 try {
                     return this.processGetBookingById(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<GetBookingByIdQueryDto[]>;
+                    return _observableThrow(e) as any as Observable<ResultOfGetBookingByIdQueryDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<GetBookingByIdQueryDto[]>;
+                return _observableThrow(response_) as any as Observable<ResultOfGetBookingByIdQueryDto>;
         }));
     }
 
-    protected processGetBookingById(response: HttpResponseBase): Observable<GetBookingByIdQueryDto[]> {
+    protected processGetBookingById(response: HttpResponseBase): Observable<ResultOfGetBookingByIdQueryDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -654,14 +654,7 @@ export class BookingsClient implements IBookingsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(GetBookingByIdQueryDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = ResultOfGetBookingByIdQueryDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2857,13 +2850,54 @@ export interface IGetAllBookingQueryDto {
     avatarColor?: string | undefined;
 }
 
+export class ResultOfGetBookingByIdQueryDto implements IResultOfGetBookingByIdQueryDto {
+    data?: GetBookingByIdQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+
+    constructor(data?: IResultOfGetBookingByIdQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.data = _data["data"] ? GetBookingByIdQueryDto.fromJS(_data["data"]) : <any>undefined;
+            this.message = _data["message"];
+            this.resultType = _data["resultType"];
+        }
+    }
+
+    static fromJS(data: any): ResultOfGetBookingByIdQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultOfGetBookingByIdQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["message"] = this.message;
+        data["resultType"] = this.resultType;
+        return data;
+    }
+}
+
+export interface IResultOfGetBookingByIdQueryDto {
+    data?: GetBookingByIdQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+}
+
 export class GetBookingByIdQueryDto implements IGetBookingByIdQueryDto {
     id?: number | undefined;
     flightId?: number | undefined;
-    flightCode?: string | undefined;
     flightDate?: string | undefined;
-    airportName?: string | undefined;
-    planeName?: string | undefined;
     origin?: string | undefined;
     destination?: string | undefined;
     avatar?: string | undefined;
@@ -2892,10 +2926,7 @@ export class GetBookingByIdQueryDto implements IGetBookingByIdQueryDto {
         if (_data) {
             this.id = _data["id"];
             this.flightId = _data["flightId"];
-            this.flightCode = _data["flightCode"];
             this.flightDate = _data["flightDate"];
-            this.airportName = _data["airportName"];
-            this.planeName = _data["planeName"];
             this.origin = _data["origin"];
             this.destination = _data["destination"];
             this.avatar = _data["avatar"];
@@ -2924,10 +2955,7 @@ export class GetBookingByIdQueryDto implements IGetBookingByIdQueryDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["flightId"] = this.flightId;
-        data["flightCode"] = this.flightCode;
         data["flightDate"] = this.flightDate;
-        data["airportName"] = this.airportName;
-        data["planeName"] = this.planeName;
         data["origin"] = this.origin;
         data["destination"] = this.destination;
         data["avatar"] = this.avatar;
@@ -2949,10 +2977,7 @@ export class GetBookingByIdQueryDto implements IGetBookingByIdQueryDto {
 export interface IGetBookingByIdQueryDto {
     id?: number | undefined;
     flightId?: number | undefined;
-    flightCode?: string | undefined;
     flightDate?: string | undefined;
-    airportName?: string | undefined;
-    planeName?: string | undefined;
     origin?: string | undefined;
     destination?: string | undefined;
     avatar?: string | undefined;

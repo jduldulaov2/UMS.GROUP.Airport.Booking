@@ -4,15 +4,19 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UMS.GROUP.Airport.Booking.Application.Common.Models;
+using UMS.GROUP.Airport.Booking.Application.Common.Models.Enums;
+using UMS.GROUP.Airport.Booking.Application.Flight.Queries.GetFlightById;
+using UMS.GROUP.Airport.Booking.Domain.Entities;
 
 namespace UMS.GROUP.Airport.Booking.Application.Booking.Queries.GetBookingById;
 
-public record GetBookingByIdQuery : IRequest<List<GetBookingByIdQueryDto>>
+public record GetBookingByIdQuery : IRequest<Result<GetBookingByIdQueryDto>>
 {
     public string? UniqueId { get; set; }
 }
 
-public class GetMediaDetailQueryHandler : IRequestHandler<GetBookingByIdQuery, List<GetBookingByIdQueryDto>>
+public class GetMediaDetailQueryHandler : IRequestHandler<GetBookingByIdQuery, Result<GetBookingByIdQueryDto>>
 {
     private readonly IApplicationDbContext _context;
 
@@ -21,35 +25,47 @@ public class GetMediaDetailQueryHandler : IRequestHandler<GetBookingByIdQuery, L
         _context = context;
     }
 
-    public async Task<List<GetBookingByIdQueryDto>> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetBookingByIdQueryDto>> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
     {
-        return await (from booking in _context.PassengerBooking
-                      join flight in _context.Flight on booking.FlightId equals flight.Id
-                      join airport in _context.Airport on flight.AirportId equals airport.Id
-                      join plane in _context.Plane on flight.PlaneId equals plane.Id
-                      where booking.UniqueId == request.UniqueId
-                      select new GetBookingByIdQueryDto
-                      {
-                          Id = booking.Id,
-                          FlightCode = flight.FlightCode,
-                          FlightDate = booking.FlightDate.ToString(),
-                          PlaneName = plane.AirlineName,
-                          AirportName = airport.AirportName,
-                          FirstName = booking.FirstName,
-                          LastName = booking.LastName,
-                          MiddleName = booking.MiddleName,
-                          Street = booking.Street,
-                          City = booking.City,
-                          ContactNumber = booking.ContactNumber,
-                          Region = booking.Region,
-                          Province = booking.Province,
-                          Destination = booking.Destination,
-                          Origin = booking.Origin,
-                          FlightId = booking.FlightId,
-                          UniqueId = booking.UniqueId,
-                          ZipCode = booking.ZipCode,
-                          Avatar = StringInfo.GetNextTextElement(booking.FirstName!, 0).ToUpper() + "" + StringInfo.GetNextTextElement(booking.LastName!, 0).ToUpper(),
-                          AvatarColor = booking.AvatarColor
-                      }).ToListAsync();
+        var result = await _context.PassengerBooking.SingleOrDefaultAsync(i => i.UniqueId == request.UniqueId);
+
+        if (result != null)
+        {
+            return new()
+            {
+                Data = new GetBookingByIdQueryDto
+                {
+                    Id = result.Id,
+                    FlightId = result.FlightId,
+                    FlightDate = result.FlightDate.ToString(),
+                    FirstName = result.FirstName,
+                    LastName = result.LastName,
+                    MiddleName = result.MiddleName,
+                    Street = result.Street,
+                    City = result.City,
+                    ContactNumber = result.ContactNumber,
+                    Region = result.Region,
+                    Province = result.Province,
+                    Destination = result.Destination,
+                    Origin = result.Origin,
+                    UniqueId = result.UniqueId,
+                    ZipCode = result.ZipCode,
+                    Avatar = StringInfo.GetNextTextElement(result.FirstName!, 0).ToUpper() + "" + StringInfo.GetNextTextElement(result.LastName!, 0).ToUpper(),
+                    AvatarColor = result.AvatarColor
+                },
+                Message = "success",
+                ResultType = ResultType.Success,
+            };
+        }
+
+        return new()
+        {
+            Data = new GetBookingByIdQueryDto
+            {
+
+            },
+            Message = "Failed - no record found.",
+            ResultType = ResultType.Error,
+        };
     }
 }

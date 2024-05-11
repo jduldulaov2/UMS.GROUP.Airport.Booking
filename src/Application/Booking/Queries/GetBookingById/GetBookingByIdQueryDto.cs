@@ -11,13 +11,7 @@ public class GetBookingByIdQueryDto
 
     public int? FlightId { get; set; }
 
-    public string? FlightCode { get; set; }
-
     public string? FlightDate { get; set; }
-
-    public string? AirportName { get; set; }
-
-    public string? PlaneName { get; set; }
 
     public string? Origin { get; set; }
 

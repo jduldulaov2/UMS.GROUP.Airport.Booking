@@ -29,7 +29,7 @@ public class Bookings : EndpointGroupBase
         return await sender.Send(query);
     }
 
-    public async Task<List<GetBookingByIdQueryDto>> GetBookingById(ISender sender, [AsParameters] GetBookingByIdQuery query)
+    public async Task<Result<GetBookingByIdQueryDto>> GetBookingById(ISender sender, [AsParameters] GetBookingByIdQuery query)
     {
         return await sender.Send(query);
     }
