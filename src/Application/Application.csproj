@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Auth\Commands\Logout\" />
-    <Folder Include="SystemEnvironment\Queries\GetSystemEnvironment\" />
   </ItemGroup>
 
 </Project>

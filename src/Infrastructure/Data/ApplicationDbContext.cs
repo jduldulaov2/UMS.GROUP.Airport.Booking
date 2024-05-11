@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-    public DbSet<SystemEnvironment> SystemEnvironment => Set<SystemEnvironment>();
     public DbSet<Airport> Airport => Set<Airport>();
 
     public DbSet<Country> Country => Set<Country>();

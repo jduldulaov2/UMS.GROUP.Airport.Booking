@@ -6,8 +6,6 @@ using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAirportById;
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAirportByName;
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAllAirport;
 using UMS.GROUP.Airport.Booking.Application.Common.Models;
-using UMS.GROUP.Airport.Booking.Application.Plane.Command.CreateAirline;
-using UMS.GROUP.Airport.Booking.Application.SystemEnvironment.Commands.UpdateSystemEnvironment;
 
 namespace UMS.GROUP.Airport.Booking.Web.Endpoints;
 

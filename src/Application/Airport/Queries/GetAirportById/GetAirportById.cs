@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UMS.GROUP.Airport.Booking.Application.Common.Models;
 using UMS.GROUP.Airport.Booking.Application.Common.Models.Enums;
-using UMS.GROUP.Airport.Booking.Application.SystemEnvironment.Queries.GetSystemEnvironment;
 
 namespace UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAirportById;
 

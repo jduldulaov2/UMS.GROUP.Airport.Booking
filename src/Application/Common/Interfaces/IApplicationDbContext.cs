@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 public interface IApplicationDbContext
 {
     IQueryable<IdentityUser> Users { get; }
-    DbSet<SystemEnvironment> SystemEnvironment { get; }
 
     DbSet<Airport> Airport { get; }
 
