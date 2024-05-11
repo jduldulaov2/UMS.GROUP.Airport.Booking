@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UMS.GROUP.Airport.Booking.Application.Flight.Command.CreateFlight;
+namespace UMS.GROUP.Airport.Booking.Application.Flight.Command.UpdateFlight;
 
-public class CreateFlightCommandValidator : AbstractValidator<CreateFlightCommand>
+public class UpdateFlightCommandValidator : AbstractValidator<UpdateFlightCommand>
 {
-    public CreateFlightCommandValidator()
+    public UpdateFlightCommandValidator()
     {
         RuleFor(v => v.FlightCode)
             .NotEmpty()

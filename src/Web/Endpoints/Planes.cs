@@ -1,11 +1,9 @@
-﻿using UMS.GROUP.Airport.Booking.Application.Airport.Command.UpdateAirport;
-using UMS.GROUP.Airport.Booking.Application.Common.Models;
+﻿using UMS.GROUP.Airport.Booking.Application.Common.Models;
 using UMS.GROUP.Airport.Booking.Application.Plane.Command.CreateAirline;
 using UMS.GROUP.Airport.Booking.Application.Plane.Command.UpdateAirline;
 using UMS.GROUP.Airport.Booking.Application.Plane.Queries.GetAllPlanes;
 using UMS.GROUP.Airport.Booking.Application.Plane.Queries.GetPlaneById;
 using UMS.GROUP.Airport.Booking.Application.Plane.Queries.GetPlaneByName;
-using UMS.GROUP.Airport.Booking.Application.SystemEnvironment.Commands.CreateSystemEnvironment;
 
 namespace UMS.GROUP.Airport.Booking.Web.Endpoints;
 

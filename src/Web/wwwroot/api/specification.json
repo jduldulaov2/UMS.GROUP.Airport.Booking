@@ -571,6 +571,38 @@
         }
       }
     },
+    "/api/Flights/UpdateFlight": {
+      "put": {
+        "tags": [
+          "Flights"
+        ],
+        "operationId": "UpdateFlight",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFlightCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfUpdateFlightCommandDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Planes/GetAllPlanes": {
       "get": {
         "tags": [
@@ -2039,6 +2071,64 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "flightCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "airportId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "planeId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfUpdateFlightCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UpdateFlightCommandDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "UpdateFlightCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateFlightCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "uniqueId": {
+            "type": "string",
+            "nullable": true
+          },
           "flightCode": {
             "type": "string",
             "nullable": true

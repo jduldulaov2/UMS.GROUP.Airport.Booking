@@ -1,8 +1,10 @@
 ﻿using UMS.GROUP.Airport.Booking.Application.Common.Models;
 using UMS.GROUP.Airport.Booking.Application.Flight.Command.CreateFlight;
+using UMS.GROUP.Airport.Booking.Application.Flight.Command.UpdateFlight;
 using UMS.GROUP.Airport.Booking.Application.Flight.Queries.GetAllFlight;
 using UMS.GROUP.Airport.Booking.Application.Flight.Queries.GetFlightById;
 using UMS.GROUP.Airport.Booking.Application.Flight.Queries.GetFlightByName;
+using UMS.GROUP.Airport.Booking.Application.Plane.Command.UpdateAirline;
 
 namespace UMS.GROUP.Airport.Booking.Web.Endpoints;
 
@@ -15,6 +17,7 @@ public class Flights : EndpointGroupBase
             .MapGet(GetFlightById, "GetFlightById")
             .MapGet(GetFlightByName, "GetFlightByName")
             .MapPost(CreateFlight, "CreateFlight")
+            .MapPut(UpdateFlight, "UpdateFlight")
             ;
     }
 
@@ -35,6 +38,11 @@ public class Flights : EndpointGroupBase
     }
 
     public Task<Result<CreateFlightCommandDto>> CreateFlight(ISender sender, CreateFlightCommand command)
+    {
+        return sender.Send(command);
+    }
+
+    public Task<Result<UpdateFlightCommandDto>> UpdateFlight(ISender sender, UpdateFlightCommand command)
     {
         return sender.Send(command);
     }

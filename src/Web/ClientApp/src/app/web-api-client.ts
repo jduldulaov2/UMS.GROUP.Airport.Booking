@@ -859,6 +859,7 @@ export interface IFlightsClient {
     getFlightById(uniqueId: string | null | undefined): Observable<GetFlightByIdQueryDto[]>;
     getFlightByName(flightCode: string | null | undefined): Observable<GetFlightNameQueryDto[]>;
     createFlight(command: CreateFlightCommand): Observable<ResultOfCreateFlightCommandDto>;
+    updateFlight(command: UpdateFlightCommand): Observable<ResultOfUpdateFlightCommandDto>;
 }
 
 @Injectable({
@@ -1085,6 +1086,58 @@ export class FlightsClient implements IFlightsClient {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = ResultOfCreateFlightCommandDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    updateFlight(command: UpdateFlightCommand): Observable<ResultOfUpdateFlightCommandDto> {
+        let url_ = this.baseUrl + "/api/Flights/UpdateFlight";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateFlight(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateFlight(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ResultOfUpdateFlightCommandDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ResultOfUpdateFlightCommandDto>;
+        }));
+    }
+
+    protected processUpdateFlight(response: HttpResponseBase): Observable<ResultOfUpdateFlightCommandDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ResultOfUpdateFlightCommandDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -3661,6 +3714,138 @@ export class CreateFlightCommand implements ICreateFlightCommand {
 }
 
 export interface ICreateFlightCommand {
+    flightCode?: string | undefined;
+    airportId?: number | undefined;
+    planeId?: number | undefined;
+}
+
+export class ResultOfUpdateFlightCommandDto implements IResultOfUpdateFlightCommandDto {
+    data?: UpdateFlightCommandDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+
+    constructor(data?: IResultOfUpdateFlightCommandDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.data = _data["data"] ? UpdateFlightCommandDto.fromJS(_data["data"]) : <any>undefined;
+            this.message = _data["message"];
+            this.resultType = _data["resultType"];
+        }
+    }
+
+    static fromJS(data: any): ResultOfUpdateFlightCommandDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultOfUpdateFlightCommandDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["message"] = this.message;
+        data["resultType"] = this.resultType;
+        return data;
+    }
+}
+
+export interface IResultOfUpdateFlightCommandDto {
+    data?: UpdateFlightCommandDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+}
+
+export class UpdateFlightCommandDto implements IUpdateFlightCommandDto {
+    id?: string | undefined;
+    updatedDate?: Date;
+
+    constructor(data?: IUpdateFlightCommandDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpdateFlightCommandDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateFlightCommandDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IUpdateFlightCommandDto {
+    id?: string | undefined;
+    updatedDate?: Date;
+}
+
+export class UpdateFlightCommand implements IUpdateFlightCommand {
+    uniqueId?: string | undefined;
+    flightCode?: string | undefined;
+    airportId?: number | undefined;
+    planeId?: number | undefined;
+
+    constructor(data?: IUpdateFlightCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.uniqueId = _data["uniqueId"];
+            this.flightCode = _data["flightCode"];
+            this.airportId = _data["airportId"];
+            this.planeId = _data["planeId"];
+        }
+    }
+
+    static fromJS(data: any): UpdateFlightCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateFlightCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["uniqueId"] = this.uniqueId;
+        data["flightCode"] = this.flightCode;
+        data["airportId"] = this.airportId;
+        data["planeId"] = this.planeId;
+        return data;
+    }
+}
+
+export interface IUpdateFlightCommand {
+    uniqueId?: string | undefined;
     flightCode?: string | undefined;
     airportId?: number | undefined;
     planeId?: number | undefined;

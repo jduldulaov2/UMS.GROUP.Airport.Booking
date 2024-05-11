@@ -10,8 +10,14 @@ public class CreateAirlineCommandValidator : AbstractValidator<CreateAirlineComm
 {
     public CreateAirlineCommandValidator()
     {
-        RuleFor(v => v.AirlineName).NotEmpty().WithMessage("AirlineName is required.");
-        RuleFor(v => v.Code).NotEmpty().WithMessage("Code is required.");
-        RuleFor(v => v.Model).NotEmpty().WithMessage("Model is required.");
+        RuleFor(v => v.AirlineName)
+            .NotEmpty()
+            .WithMessage("AirlineName is required.");
+        RuleFor(v => v.Code)
+            .NotEmpty()
+            .WithMessage("Code is required.");
+        RuleFor(v => v.Model)
+            .NotEmpty()
+            .WithMessage("Model is required.");
     }
 }
