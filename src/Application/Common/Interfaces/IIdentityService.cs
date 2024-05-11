@@ -1,6 +1,7 @@
 ﻿
 using UMS.GROUP.Airport.Booking.Application.Auth.Commands.Login;
 using UMS.GROUP.Airport.Booking.Application.Auth.Commands.Logout;
+using UMS.GROUP.Airport.Booking.Application.Auth.Queries.GetLoggedIn;
 using UMS.GROUP.Airport.Booking.Application.Common.Models;
 using UMS.GROUP.Airport.Booking.Application.Users.Commands.CreateUser;
 using UMS.GROUP.Airport.Booking.Application.Users.Commands.UpdatePassword;
@@ -43,4 +44,6 @@ public interface IIdentityService
     Task<Result<UpdatePasswordDto>> UpdateIdentityUserPasswordAsync(string? userName, string? oldPassword, string? newPassword);
 
     Task<Result<UserByIDDto>> GetUserById(string? id);
+
+    Task<Result<GetLoggedInQueryDto>> GetLoggedIn();
 }

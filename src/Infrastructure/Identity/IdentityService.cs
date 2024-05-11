@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UMS.GROUP.Airport.Booking.Application.Auth.Queries.GetLoggedIn;
 namespace UMS.GROUP.Airport.Booking.Infrastructure.Identity;
 
 
@@ -24,11 +25,14 @@ public class IdentityService : IIdentityService
     private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
     private readonly IAuthorizationService _authorizationService;
     private readonly IJsonService _jsonService;
+    private readonly IUser _user;
+
     public IdentityService(
         UserManager<ApplicationUser> userManager,
         IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
         IAuthorizationService authorizationService, 
-        SignInManager<ApplicationUser> signInManager, IJsonService jsonService
+        SignInManager<ApplicationUser> signInManager, IJsonService jsonService,
+        IUser user
         )
     {
         _userManager = userManager;
@@ -36,6 +40,7 @@ public class IdentityService : IIdentityService
         _authorizationService = authorizationService;
         _signInManager = signInManager;
         _jsonService = jsonService;
+        _user = user;
     }
 
     public async Task<string?> GetUserNameAsync(string userId)
@@ -496,5 +501,38 @@ public class IdentityService : IIdentityService
                 ResultType = ResultType.Success
             };
         }
+    }
+
+    public async Task<Result<GetLoggedInQueryDto>> GetLoggedIn()
+    {
+        string userDetail = await Task.Run(() => GetLoggedInUser());
+
+        if (userDetail != null)
+        {
+            return new()
+            {
+                Data = new GetLoggedInQueryDto
+                {
+                    LoggedInId = userDetail
+                },
+                Message = "Logged in user detected",
+                ResultType = ResultType.Success
+            };
+        }
+
+        return new()
+        {
+            Data = new GetLoggedInQueryDto
+            {
+            },
+            Message = "Logged in not detected",
+            ResultType = ResultType.Error
+        };
+
+    }
+
+    private string GetLoggedInUser()
+    {
+        return _user.Id!;
     }
 }

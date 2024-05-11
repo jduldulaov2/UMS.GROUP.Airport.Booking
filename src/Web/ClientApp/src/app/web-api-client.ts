@@ -258,6 +258,7 @@ export class AirportClient implements IAirportClient {
 export interface IAuthClient {
     login(userName: string | null | undefined, password: string | null | undefined, isPersistent: boolean, lockOutOnFailure: boolean): Observable<ResultOfLoginDto>;
     logOut(userId: string | null | undefined): Observable<ResultOfLogoutDto>;
+    geLoggedIn(): Observable<ResultOfGetLoggedInQueryDto>;
 }
 
 @Injectable({
@@ -373,6 +374,54 @@ export class AuthClient implements IAuthClient {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = ResultOfLogoutDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    geLoggedIn(): Observable<ResultOfGetLoggedInQueryDto> {
+        let url_ = this.baseUrl + "/api/Auth/GeLoggedIn";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGeLoggedIn(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGeLoggedIn(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ResultOfGetLoggedInQueryDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ResultOfGetLoggedInQueryDto>;
+        }));
+    }
+
+    protected processGeLoggedIn(response: HttpResponseBase): Observable<ResultOfGetLoggedInQueryDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ResultOfGetLoggedInQueryDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2065,6 +2114,86 @@ export class LogoutDto implements ILogoutDto {
 export interface ILogoutDto {
     userId?: string | undefined;
     time?: Date | undefined;
+}
+
+export class ResultOfGetLoggedInQueryDto implements IResultOfGetLoggedInQueryDto {
+    data?: GetLoggedInQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+
+    constructor(data?: IResultOfGetLoggedInQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.data = _data["data"] ? GetLoggedInQueryDto.fromJS(_data["data"]) : <any>undefined;
+            this.message = _data["message"];
+            this.resultType = _data["resultType"];
+        }
+    }
+
+    static fromJS(data: any): ResultOfGetLoggedInQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultOfGetLoggedInQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["message"] = this.message;
+        data["resultType"] = this.resultType;
+        return data;
+    }
+}
+
+export interface IResultOfGetLoggedInQueryDto {
+    data?: GetLoggedInQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+}
+
+export class GetLoggedInQueryDto implements IGetLoggedInQueryDto {
+    loggedInId?: string | undefined;
+
+    constructor(data?: IGetLoggedInQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.loggedInId = _data["loggedInId"];
+        }
+    }
+
+    static fromJS(data: any): GetLoggedInQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLoggedInQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["loggedInId"] = this.loggedInId;
+        return data;
+    }
+}
+
+export interface IGetLoggedInQueryDto {
+    loggedInId?: string | undefined;
 }
 
 export class GetAllBookingQueryDto implements IGetAllBookingQueryDto {

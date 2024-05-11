@@ -218,6 +218,26 @@
         }
       }
     },
+    "/api/Auth/GeLoggedIn": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "GeLoggedIn",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfGetLoggedInQueryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Bookings/GetAllBookings": {
       "get": {
         "tags": [
@@ -1121,6 +1141,36 @@
           "time": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfGetLoggedInQueryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetLoggedInQueryDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "GetLoggedInQueryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loggedInId": {
+            "type": "string",
             "nullable": true
           }
         }
