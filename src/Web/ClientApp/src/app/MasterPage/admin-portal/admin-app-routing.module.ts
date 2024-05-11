@@ -30,6 +30,10 @@ const routes: Routes = [
     component: AirportDetailComponent
   },
   {
+    path: 'portal/manage-airport/register',
+    component: AirportDetailComponent
+  },
+  {
     path: 'portal/manage-planes',
     component: PlaneListComponent
   },

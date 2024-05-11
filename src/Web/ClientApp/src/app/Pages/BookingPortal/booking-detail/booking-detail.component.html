@@ -4,7 +4,8 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Booking Details</h1>
+            <h1 class="m-0" *ngIf="uniqueKey == null">Register Booking</h1>
+            <h1 class="m-0" *ngIf="uniqueKey != null">Booking details</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -19,7 +20,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-3" *ngIf="uniqueKey != null">
     
                 <!-- Profile Image -->
                 <div class="card card-primary card-outline">
@@ -68,7 +69,7 @@
                 <!-- /.card -->
               </div>
               <!-- /.col -->
-              <div class="col-md-9">
+              <div [ngClass]="(uniqueKey == null)?'col-md-12':'col-md-9'">
                 <div class="card">
                   <div class="card-header p-2">
                     <ul class="nav nav-pills">
