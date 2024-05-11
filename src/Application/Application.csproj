@@ -19,10 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Airport\Command\" />
     <Folder Include="Auth\Commands\Logout\" />
     <Folder Include="Booking\Command\" />
-    <Folder Include="Flight\Command\" />
     <Folder Include="SystemEnvironment\Queries\GetSystemEnvironment\" />
   </ItemGroup>
 

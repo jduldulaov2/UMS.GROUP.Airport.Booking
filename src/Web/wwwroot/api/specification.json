@@ -129,6 +129,38 @@
         }
       }
     },
+    "/api/Airport/CreateAirport": {
+      "post": {
+        "tags": [
+          "Airport"
+        ],
+        "operationId": "CreateAirport",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAirportCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfCreateAirportCommandDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Auth/Login": {
       "get": {
         "tags": [
@@ -436,6 +468,38 @@
                   "items": {
                     "$ref": "#/components/schemas/GetFlightNameQueryDto"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Flights/CreateFlight": {
+      "post": {
+        "tags": [
+          "Flights"
+        ],
+        "operationId": "CreateFlight",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFlightCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfCreateFlightCommandDto"
                 }
               }
             }
@@ -1064,6 +1128,75 @@
           }
         }
       },
+      "ResultOfCreateAirportCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CreateAirportCommandDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "CreateAirportCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateAirportCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "airportName": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
       "ResultOfLoginDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1601,6 +1734,60 @@
           },
           "uniqueId": {
             "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfCreateFlightCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CreateFlightCommandDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "CreateFlightCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateFlightCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "flightCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "airportId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "planeId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         }

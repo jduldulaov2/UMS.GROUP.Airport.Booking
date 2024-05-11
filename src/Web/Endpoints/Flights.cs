@@ -1,4 +1,6 @@
-﻿using UMS.GROUP.Airport.Booking.Application.Flight.Queries.GetAllFlight;
+﻿using UMS.GROUP.Airport.Booking.Application.Common.Models;
+using UMS.GROUP.Airport.Booking.Application.Flight.Command.CreateFlight;
+using UMS.GROUP.Airport.Booking.Application.Flight.Queries.GetAllFlight;
 using UMS.GROUP.Airport.Booking.Application.Flight.Queries.GetFlightById;
 using UMS.GROUP.Airport.Booking.Application.Flight.Queries.GetFlightByName;
 
@@ -12,6 +14,7 @@ public class Flights : EndpointGroupBase
             .MapGet(GetAllFlights, "GetAllFlights")
             .MapGet(GetFlightById, "GetFlightById")
             .MapGet(GetFlightByName, "GetFlightByName")
+            .MapPost(CreateFlight, "CreateFlight")
             ;
     }
 
@@ -29,6 +32,11 @@ public class Flights : EndpointGroupBase
     public async Task<List<GetFlightNameQueryDto>> GetFlightByName(ISender sender, [AsParameters] GetFlightByNameQuery query)
     {
         return await sender.Send(query);
+    }
+
+    public Task<Result<CreateFlightCommandDto>> CreateFlight(ISender sender, CreateFlightCommand command)
+    {
+        return sender.Send(command);
     }
 
 }
