@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UMS.GROUP.Airport.Booking.Application.Common.Models;
 
 namespace UMS.GROUP.Airport.Booking.Application.Flight.Queries.GetAllFlight;
 
@@ -33,7 +34,8 @@ public class GetMediaDetailQueryHandler : IRequestHandler<GetAllFlightQuery, Lis
                           AirportName = airport.AirportName,
                           FlightCode = flight.FlightCode,
                           PlaneName = plane.AirlineName,
-                          UniqueId = flight.UniqueId
+                          UniqueId = flight.UniqueId,
+                          IsActive = flight.IsActive == null ? true : flight.IsActive
                       }).ToListAsync();
     }
 }

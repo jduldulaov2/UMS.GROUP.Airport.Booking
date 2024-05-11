@@ -17,7 +17,7 @@ export class LoginComponent {
   txtPassword: string = "";
 
   ngOnInit(){
-    
+    this.DetectLoggedIn();
   }
   
   Authorize(username: string, password: string){
@@ -27,6 +27,17 @@ export class LoginComponent {
           location.href = '/portal/my-dashboard';
         }else{
           $("#alert").show();
+        }
+      },
+      error: error => console.error(error)
+    });
+  }
+
+  DetectLoggedIn(){
+    this.authClient.geLoggedIn().subscribe({
+      next: result => {
+        if(result.message == 'Logged in user detected'){
+          location.href = '/portal/my-dashboard';
         }
       },
       error: error => console.error(error)

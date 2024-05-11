@@ -20,4 +20,6 @@ public class GetFlightNameQueryDto
     public string? PlaneName { get; set; }
 
     public string? UniqueId { get; set; }
+
+    public bool? IsActive { get; set; }
 }

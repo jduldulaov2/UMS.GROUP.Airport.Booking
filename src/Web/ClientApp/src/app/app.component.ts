@@ -22,10 +22,8 @@ export class AppComponent {
       next: result => {
         if(result.message == 'Logged in user detected'){
           this.IsLoggedIn = true;
-          this.router.navigate(['/portal/my-dashboard']);
         }else{
           this.IsLoggedIn = false;
-          this.router.navigate(['/login']);
         }
       },
       error: error => console.error(error)

@@ -63,9 +63,12 @@
                       <td>
                         {{item.countryName}}
                       </td>
-                      <td class="project-state">
-                          <span class="badge badge-success">Active</span>
-                      </td>
+                      <td class="project-state" *ngIf="item.isActive">
+                        <span class="badge badge-success">Active</span>
+                    </td>
+                    <td class="project-state" *ngIf="!item.isActive">
+                        <span class="badge badge-danger">Deactivated</span>
+                    </td>
                       <td class="project-actions text-right">
                           <a [routerLink]="['/portal/manage-airport',item.uniqueId,'detail']"  class="btn btn-primary btn-sm custom-button-reset">
                               <i class="fas fa-user-cog">

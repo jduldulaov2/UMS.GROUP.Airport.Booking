@@ -33,7 +33,7 @@ public class GetAllPlanesQueryHandler : IRequestHandler<GetPlaneByNameQuery, Lis
                           Code = plane.Code,
                           Model = plane.Model,
                           UniqueId = plane.UniqueId,
-                          IsActive = plane.IsActive
+                          IsActive = plane.IsActive == null ? true : plane.IsActive
                       }).ToListAsync();
     }
 }

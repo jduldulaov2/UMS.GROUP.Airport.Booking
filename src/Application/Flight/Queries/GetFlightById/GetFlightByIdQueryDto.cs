@@ -16,9 +16,7 @@ public class GetFlightByIdQueryDto
 
     public int? PlaneId { get; set; }
 
-    public string? AirportName { get; set; }
-
-    public string? PlaneName { get; set; }
-
     public string? UniqueId { get; set; }
+
+    public bool? IsActive { get; set; }
 }

@@ -526,10 +526,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetFlightByIdQueryDto"
-                  }
+                  "$ref": "#/components/schemas/ResultOfGetFlightByIdQueryDto"
                 }
               }
             }
@@ -1093,6 +1090,10 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
           }
         }
       },
@@ -1157,6 +1158,10 @@
           "countryName": {
             "type": "string",
             "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
           }
         }
       },
@@ -1204,6 +1209,10 @@
           },
           "countryName": {
             "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
             "nullable": true
           }
         }
@@ -2006,6 +2015,30 @@
           "uniqueId": {
             "type": "string",
             "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfGetFlightByIdQueryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetFlightByIdQueryDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
           }
         }
       },
@@ -2032,16 +2065,12 @@
             "format": "int32",
             "nullable": true
           },
-          "airportName": {
-            "type": "string",
-            "nullable": true
-          },
-          "planeName": {
-            "type": "string",
-            "nullable": true
-          },
           "uniqueId": {
             "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
             "nullable": true
           }
         }
@@ -2079,6 +2108,10 @@
           },
           "uniqueId": {
             "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
             "nullable": true
           }
         }

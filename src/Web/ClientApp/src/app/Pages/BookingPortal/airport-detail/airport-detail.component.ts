@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { AirportClient, CountryClient, GetAllCountryQueryDto } from '../../../web-api-client';
+import { AirportClient, CountryClient, GetAirportByIdQueryDto, GetAllCountryQueryDto } from '../../../web-api-client';
 import { SpinnerServiceService } from '../../../Services/Shared/spinner-service.service';
 import { ActivatedRoute } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-airport-detail',
@@ -11,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AirportDetailComponent {
 
   public countryDto: GetAllCountryQueryDto[] = [];
+
   uniqueKey!: any;
 
   constructor(
@@ -23,9 +25,14 @@ export class AirportDetailComponent {
 
   ngOnInit(){
     this.loader.ShowLoader();
-    this.getCountryList();
 
     this.uniqueKey = this.route.snapshot.paramMap.get('key');
+
+    if(this.uniqueKey!= null){
+      this.getCountryListForEdit();
+    }else{
+      this.getCountryList();
+    }
 
   }
 
@@ -33,7 +40,38 @@ export class AirportDetailComponent {
     this.countryClient.getCountry().subscribe({
       next: result => {
         this.countryDto = result
-        console.log(result);
+      },
+      error: error => console.error(error)
+    });
+  }
+
+  getCountryListForEdit(): void {
+    this.countryClient.getCountry().subscribe({
+      next: result => {
+        this.countryDto = result;
+        this.getAirportById(this.uniqueKey);
+      },
+      error: error => console.error(error)
+    });
+  }
+
+  getAirportById(id: any): void {
+    this.airportClient.getAirportById(id).subscribe({
+      next: result => {
+        $("#inputAirport").val(result.data!.airportName);
+        $("#inputCountry").val(result.data!.countryId);
+        $("#inputStreet").val(result.data!.street);
+        $("#inputCity").val(result.data!.city);
+        $("#inputProvince").val(result.data!.province);
+        $("#inputRegion").val(result.data!.region);
+        $("#inputZipCode").val(result.data!.zipCode);
+        $("#AirportSummary").html(result.data!.airportName);
+        $("#AirportSummaryAddress").html(result.data!.street + ' ' + result.data!.city + ' ' + result.data!.province + ', ' + result.data!.region + ' ' + result.data!.zipCode);
+        if(result.data!.isActive){
+          $("#flexSwitchCheckChecked").prop('checked', true);
+        }else{
+          $("#flexSwitchCheckChecked").prop('checked', false);
+        }
       },
       error: error => console.error(error)
     });

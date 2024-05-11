@@ -909,7 +909,7 @@ export class CountryClient implements ICountryClient {
 
 export interface IFlightsClient {
     getAllFlights(): Observable<GetAllFlightQueryDto[]>;
-    getFlightById(uniqueId: string | null | undefined): Observable<GetFlightByIdQueryDto[]>;
+    getFlightById(uniqueId: string | null | undefined): Observable<ResultOfGetFlightByIdQueryDto>;
     getFlightByName(flightCode: string | null | undefined): Observable<GetFlightNameQueryDto[]>;
     createFlight(command: CreateFlightCommand): Observable<ResultOfCreateFlightCommandDto>;
     updateFlight(command: UpdateFlightCommand): Observable<ResultOfUpdateFlightCommandDto>;
@@ -983,7 +983,7 @@ export class FlightsClient implements IFlightsClient {
         return _observableOf(null as any);
     }
 
-    getFlightById(uniqueId: string | null | undefined): Observable<GetFlightByIdQueryDto[]> {
+    getFlightById(uniqueId: string | null | undefined): Observable<ResultOfGetFlightByIdQueryDto> {
         let url_ = this.baseUrl + "/api/Flights/GetFlightById?";
         if (uniqueId !== undefined && uniqueId !== null)
             url_ += "UniqueId=" + encodeURIComponent("" + uniqueId) + "&";
@@ -1004,14 +1004,14 @@ export class FlightsClient implements IFlightsClient {
                 try {
                     return this.processGetFlightById(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<GetFlightByIdQueryDto[]>;
+                    return _observableThrow(e) as any as Observable<ResultOfGetFlightByIdQueryDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<GetFlightByIdQueryDto[]>;
+                return _observableThrow(response_) as any as Observable<ResultOfGetFlightByIdQueryDto>;
         }));
     }
 
-    protected processGetFlightById(response: HttpResponseBase): Observable<GetFlightByIdQueryDto[]> {
+    protected processGetFlightById(response: HttpResponseBase): Observable<ResultOfGetFlightByIdQueryDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1022,14 +1022,7 @@ export class FlightsClient implements IFlightsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(GetFlightByIdQueryDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = ResultOfGetFlightByIdQueryDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1947,6 +1940,7 @@ export class GetAirportByIdQueryDto implements IGetAirportByIdQueryDto {
     region?: string | undefined;
     zipCode?: string | undefined;
     countryId?: number | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: IGetAirportByIdQueryDto) {
         if (data) {
@@ -1968,6 +1962,7 @@ export class GetAirportByIdQueryDto implements IGetAirportByIdQueryDto {
             this.region = _data["region"];
             this.zipCode = _data["zipCode"];
             this.countryId = _data["countryId"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -1989,6 +1984,7 @@ export class GetAirportByIdQueryDto implements IGetAirportByIdQueryDto {
         data["region"] = this.region;
         data["zipCode"] = this.zipCode;
         data["countryId"] = this.countryId;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -2003,6 +1999,7 @@ export interface IGetAirportByIdQueryDto {
     region?: string | undefined;
     zipCode?: string | undefined;
     countryId?: number | undefined;
+    isActive?: boolean | undefined;
 }
 
 export enum ResultType {
@@ -2023,6 +2020,7 @@ export class GetAllAirportQueryDto implements IGetAllAirportQueryDto {
     zipCode?: string | undefined;
     countryId?: number | undefined;
     countryName?: string | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: IGetAllAirportQueryDto) {
         if (data) {
@@ -2045,6 +2043,7 @@ export class GetAllAirportQueryDto implements IGetAllAirportQueryDto {
             this.zipCode = _data["zipCode"];
             this.countryId = _data["countryId"];
             this.countryName = _data["countryName"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -2067,6 +2066,7 @@ export class GetAllAirportQueryDto implements IGetAllAirportQueryDto {
         data["zipCode"] = this.zipCode;
         data["countryId"] = this.countryId;
         data["countryName"] = this.countryName;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -2082,6 +2082,7 @@ export interface IGetAllAirportQueryDto {
     zipCode?: string | undefined;
     countryId?: number | undefined;
     countryName?: string | undefined;
+    isActive?: boolean | undefined;
 }
 
 export class GetAirportByNameQueryDto implements IGetAirportByNameQueryDto {
@@ -2095,6 +2096,7 @@ export class GetAirportByNameQueryDto implements IGetAirportByNameQueryDto {
     zipCode?: string | undefined;
     countryId?: number | undefined;
     countryName?: string | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: IGetAirportByNameQueryDto) {
         if (data) {
@@ -2117,6 +2119,7 @@ export class GetAirportByNameQueryDto implements IGetAirportByNameQueryDto {
             this.zipCode = _data["zipCode"];
             this.countryId = _data["countryId"];
             this.countryName = _data["countryName"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -2139,6 +2142,7 @@ export class GetAirportByNameQueryDto implements IGetAirportByNameQueryDto {
         data["zipCode"] = this.zipCode;
         data["countryId"] = this.countryId;
         data["countryName"] = this.countryName;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -2154,6 +2158,7 @@ export interface IGetAirportByNameQueryDto {
     zipCode?: string | undefined;
     countryId?: number | undefined;
     countryName?: string | undefined;
+    isActive?: boolean | undefined;
 }
 
 export class ResultOfCreateAirportCommandDto implements IResultOfCreateAirportCommandDto {
@@ -3472,6 +3477,7 @@ export class GetAllFlightQueryDto implements IGetAllFlightQueryDto {
     airportName?: string | undefined;
     planeName?: string | undefined;
     uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: IGetAllFlightQueryDto) {
         if (data) {
@@ -3491,6 +3497,7 @@ export class GetAllFlightQueryDto implements IGetAllFlightQueryDto {
             this.airportName = _data["airportName"];
             this.planeName = _data["planeName"];
             this.uniqueId = _data["uniqueId"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -3510,6 +3517,7 @@ export class GetAllFlightQueryDto implements IGetAllFlightQueryDto {
         data["airportName"] = this.airportName;
         data["planeName"] = this.planeName;
         data["uniqueId"] = this.uniqueId;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -3522,6 +3530,51 @@ export interface IGetAllFlightQueryDto {
     airportName?: string | undefined;
     planeName?: string | undefined;
     uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
+}
+
+export class ResultOfGetFlightByIdQueryDto implements IResultOfGetFlightByIdQueryDto {
+    data?: GetFlightByIdQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+
+    constructor(data?: IResultOfGetFlightByIdQueryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.data = _data["data"] ? GetFlightByIdQueryDto.fromJS(_data["data"]) : <any>undefined;
+            this.message = _data["message"];
+            this.resultType = _data["resultType"];
+        }
+    }
+
+    static fromJS(data: any): ResultOfGetFlightByIdQueryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultOfGetFlightByIdQueryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["message"] = this.message;
+        data["resultType"] = this.resultType;
+        return data;
+    }
+}
+
+export interface IResultOfGetFlightByIdQueryDto {
+    data?: GetFlightByIdQueryDto | undefined;
+    message?: string;
+    resultType?: ResultType;
 }
 
 export class GetFlightByIdQueryDto implements IGetFlightByIdQueryDto {
@@ -3529,9 +3582,8 @@ export class GetFlightByIdQueryDto implements IGetFlightByIdQueryDto {
     flightCode?: string | undefined;
     airportId?: number | undefined;
     planeId?: number | undefined;
-    airportName?: string | undefined;
-    planeName?: string | undefined;
     uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: IGetFlightByIdQueryDto) {
         if (data) {
@@ -3548,9 +3600,8 @@ export class GetFlightByIdQueryDto implements IGetFlightByIdQueryDto {
             this.flightCode = _data["flightCode"];
             this.airportId = _data["airportId"];
             this.planeId = _data["planeId"];
-            this.airportName = _data["airportName"];
-            this.planeName = _data["planeName"];
             this.uniqueId = _data["uniqueId"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -3567,9 +3618,8 @@ export class GetFlightByIdQueryDto implements IGetFlightByIdQueryDto {
         data["flightCode"] = this.flightCode;
         data["airportId"] = this.airportId;
         data["planeId"] = this.planeId;
-        data["airportName"] = this.airportName;
-        data["planeName"] = this.planeName;
         data["uniqueId"] = this.uniqueId;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -3579,9 +3629,8 @@ export interface IGetFlightByIdQueryDto {
     flightCode?: string | undefined;
     airportId?: number | undefined;
     planeId?: number | undefined;
-    airportName?: string | undefined;
-    planeName?: string | undefined;
     uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
 }
 
 export class GetFlightNameQueryDto implements IGetFlightNameQueryDto {
@@ -3592,6 +3641,7 @@ export class GetFlightNameQueryDto implements IGetFlightNameQueryDto {
     airportName?: string | undefined;
     planeName?: string | undefined;
     uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: IGetFlightNameQueryDto) {
         if (data) {
@@ -3611,6 +3661,7 @@ export class GetFlightNameQueryDto implements IGetFlightNameQueryDto {
             this.airportName = _data["airportName"];
             this.planeName = _data["planeName"];
             this.uniqueId = _data["uniqueId"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -3630,6 +3681,7 @@ export class GetFlightNameQueryDto implements IGetFlightNameQueryDto {
         data["airportName"] = this.airportName;
         data["planeName"] = this.planeName;
         data["uniqueId"] = this.uniqueId;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -3642,6 +3694,7 @@ export interface IGetFlightNameQueryDto {
     airportName?: string | undefined;
     planeName?: string | undefined;
     uniqueId?: string | undefined;
+    isActive?: boolean | undefined;
 }
 
 export class ResultOfCreateFlightCommandDto implements IResultOfCreateFlightCommandDto {

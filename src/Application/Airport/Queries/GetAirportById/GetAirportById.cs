@@ -40,7 +40,8 @@ public class GetAirportByIdQueryHandler : IRequestHandler<GetAirportByIdQuery, R
                     Province = result.Province,
                     Region = result.Region,
                     ZipCode = result.ZipCode,
-                    UniqueId = result.UniqueId
+                    UniqueId = result.UniqueId,
+                    IsActive = result.IsActive == null? true : result.IsActive
                 },
                 Message = "success",
                 ResultType = ResultType.Success,

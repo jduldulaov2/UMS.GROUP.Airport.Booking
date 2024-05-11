@@ -38,7 +38,8 @@ public class GetMediaDetailQueryHandler : IRequestHandler<GetAllAirportQuery, Li
                           CountryId = airport.CountryId,
                           UniqueId = airport.UniqueId,
                           ZipCode = airport.ZipCode,
-                          
+                          IsActive = airport.IsActive == null ? true : airport.IsActive
+
                       }).ToListAsync();
     }
 }

@@ -27,7 +27,7 @@ public class Flights : EndpointGroupBase
         return await sender.Send(query);
     }
 
-    public async Task<List<GetFlightByIdQueryDto>> GetFlightById(ISender sender, [AsParameters] GetFlightByIdQuery query)
+    public async Task<Result<GetFlightByIdQueryDto>> GetFlightById(ISender sender, [AsParameters] GetFlightByIdQuery query)
     {
         return await sender.Send(query);
     }

@@ -24,4 +24,6 @@ public class GetAirportByIdQueryDto
     public string? ZipCode { get; set; }
 
     public int? CountryId { get; set; }
+
+    public bool? IsActive { get; set; }
 }

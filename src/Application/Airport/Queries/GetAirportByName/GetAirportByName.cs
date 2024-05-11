@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAllAirport;
+using UMS.GROUP.Airport.Booking.Application.Common.Models;
 
 namespace UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAirportByName;
 
@@ -38,6 +39,7 @@ public class GetAirportByNameQueryHandler : IRequestHandler<GetAirportByNameQuer
                           CountryId = airport.CountryId,
                           UniqueId = airport.UniqueId,
                           ZipCode = airport.ZipCode,
+                          IsActive = airport.IsActive == null ? true : airport.IsActive
 
                       }).ToListAsync();
     }

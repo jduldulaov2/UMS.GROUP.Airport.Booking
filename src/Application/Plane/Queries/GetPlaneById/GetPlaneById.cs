@@ -36,7 +36,7 @@ public class GetPlaneByIdQueryHandler : IRequestHandler<GetPlaneByIdQuery, Resul
                     Code = result.Code,
                     Model = result.Model,
                     UniqueId = result.UniqueId,
-                    IsActive = result.IsActive
+                    IsActive = result.IsActive == null ? true : result.IsActive
                 },
                 Message = "success",
                 ResultType = ResultType.Success,
