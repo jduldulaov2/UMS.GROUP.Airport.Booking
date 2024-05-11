@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SpinnerServiceService } from '../../../Services/Shared/spinner-service.service';
+import { AuthClient } from '../../../web-api-client';
+declare var $: any;
 
 @Component({
   selector: 'app-login',
@@ -7,24 +11,26 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
+  constructor(private loader: SpinnerServiceService, private authClient: AuthClient, private router: Router, private route: ActivatedRoute) {}
+
+  txtUserName: string = "";
+  txtPassword: string = "";
+
   ngOnInit(){
-    if (localStorage.getItem("credentials") !== null) {
-      window.location.href = '/portal/my-dashboard';
-    }
+    
   }
   
-  NavigateToDashboard(){
-
-    //Temporary only
-    localStorage.setItem('credentials', JSON.stringify({
-      'userID': '0000-111111-222222',
-      'userName': 'johndoe',
-      'lastName': 'Doe',
-      'firstName': 'John',
-      'roleDesc' : 'Admin'
-    }));
-
-    location.href = '/portal/my-dashboard';
+  Authorize(username: string, password: string){
+    this.authClient.login(username, password, false, false).subscribe({
+      next: result => {
+        if(result.resultType == 1){
+          location.href = '/portal/my-dashboard';
+        }else{
+          $("#alert").show();
+        }
+      },
+      error: error => console.error(error)
+    });
   }
 
 }

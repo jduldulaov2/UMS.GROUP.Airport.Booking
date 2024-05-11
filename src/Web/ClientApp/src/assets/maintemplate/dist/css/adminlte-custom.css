@@ -289,3 +289,18 @@
     top: 0px; /* table head will be placed from the top of the table and sticks to it */
   }
 
+  .alert.collapsing {
+    -webkit-transition: none;
+    transition: none;
+    display: none;
+}
+
+.custom-avatar-header{
+  background: #20c997;
+              padding-top: 10px;
+              padding-right: 10px;
+              padding-bottom: 10px;
+              padding-left: 14px;
+              width: 50px;
+              font-weight: bold;
+}
