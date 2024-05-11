@@ -30,23 +30,35 @@
                       <div class="active tab-pane" id="profile">
                         <form class="form-horizontal">
                           <div class="form-group row">
-                            <label for="inputAirportName" class="col-sm-2 col-form-label">Airport Name <span style="color: red;">*</span></label>
+                            <label for="inputFlightCode" class="col-sm-2 col-form-label">Flight Code <span style="color: red;">*</span></label>
                             <div class="col-sm-10">
-                              <input type="text" class="form-control" id="inputAirportName" placeholder="Airport">
+                              <input type="text" class="form-control" id="inputFlightCode" placeholder="Flight Code">
                             </div>
                           </div>
-                            <div class="form-group row">
-                                <label for="inputFlightCode" class="col-sm-2 col-form-label">Flight Code <span style="color: red;">*</span></label>
-                                <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="inputFlightCode" placeholder="Flight Code">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="inputAirlineModel" class="col-sm-2 col-form-label">Plane / Airline <span style="color: red;">*</span></label>
-                                <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="inputAirlineModel" placeholder="Plane / Airline">
-                                </div>
-                              </div>
+                          <div class="form-group row">
+                            <label for="inputAirport" class="col-sm-2 col-form-label">Airport Name<span style="color: red;">*</span></label>
+                            <div class="col-sm-10">
+                              <select  class="form-select" aria-label="Default select example" id="inputAirport" style="padding: 12px;">
+                                <option selected >Select Airport</option>
+                                <option *ngFor="let airport of getAllAirportQueryDto"
+                                        [value]="airport.id">
+                                        {{airport.countryName}} - {{airport.airportName}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputAirline" class="col-sm-2 col-form-label">Airline/Plane Name<span style="color: red;">*</span></label>
+                            <div class="col-sm-10">
+                              <select  class="form-select" aria-label="Default select example" id="inputAirline" style="padding: 12px;">
+                                <option selected >Select Airline</option>
+                                <option *ngFor="let airline of getAllPlanesQueryDto"
+                                        [value]="airline.id">
+                                        {{airline.airlineName}} ({{airline.code}})
+                                </option>
+                              </select>
+                            </div>
+                          </div>
                               <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
                                 <label class="form-check-label" for="flexSwitchCheckChecked">Status (Active)?</label>

@@ -80,12 +80,18 @@
                     <div class="tab-content">
                       <div class="active tab-pane" id="profile">
                         <form class="form-horizontal">
-                            <div class="form-group row">
-                                <label for="inputFlight" class="col-sm-2 col-form-label">Flight # <span style="color: red;">*</span></label>
-                                <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="inputFlight" placeholder="Flight Number">
-                                </div>
-                              </div>
+                          <div class="form-group row">
+                            <label for="inputFlight" class="col-sm-2 col-form-label">Flight #:<span style="color: red;">*</span></label>
+                            <div class="col-sm-10">
+                              <select  class="form-select" aria-label="Default select example" id="inputFlight" style="padding: 12px;">
+                                <option selected >Select Flight #</option>
+                                <option *ngFor="let flight of getAllFlightQueryDto"
+                                        [value]="flight.id">
+                                        {{flight.flightCode}} ({{flight.airportName}} - {{flight.planeName}})
+                                </option>
+                              </select>
+                            </div>
+                          </div>
                           <div class="form-group row">
                             <label for="inputLastName" class="col-sm-2 col-form-label">Last Name <span style="color: red;">*</span></label>
                             <div class="col-sm-10">
