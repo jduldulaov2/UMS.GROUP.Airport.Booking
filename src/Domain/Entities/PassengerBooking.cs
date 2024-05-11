@@ -20,4 +20,5 @@ public class PassengerBooking : BaseAuditableEntity
     public string? Region { get; set; }
     public string? ZipCode { get; set; }
     public string? ContactNumber { get; set; }
+    public string? AvatarColor { get; set; }
 }
