@@ -544,6 +544,7 @@ export interface IBookingsClient {
     getBookingById(uniqueId: string | null | undefined): Observable<GetBookingByIdQueryDto[]>;
     getBookingByName(lastName: string | null | undefined): Observable<GetBookingByNameQueryDto[]>;
     createBooking(command: CreateBookingCommand): Observable<ResultOfCreateBookingCommandDto>;
+    updateBooking(command: UpdateBookingCommand): Observable<ResultOfUpdateBookingCommandDto>;
 }
 
 @Injectable({
@@ -770,6 +771,58 @@ export class BookingsClient implements IBookingsClient {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = ResultOfCreateBookingCommandDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    updateBooking(command: UpdateBookingCommand): Observable<ResultOfUpdateBookingCommandDto> {
+        let url_ = this.baseUrl + "/api/Bookings/UpdateBooking";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateBooking(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateBooking(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ResultOfUpdateBookingCommandDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ResultOfUpdateBookingCommandDto>;
+        }));
+    }
+
+    protected processUpdateBooking(response: HttpResponseBase): Observable<ResultOfUpdateBookingCommandDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ResultOfUpdateBookingCommandDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -3176,6 +3229,178 @@ export class CreateBookingCommand implements ICreateBookingCommand {
 }
 
 export interface ICreateBookingCommand {
+    flightId?: number | undefined;
+    flightDate?: Date | undefined;
+    origin?: string | undefined;
+    destination?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    middleName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    contactNumber?: string | undefined;
+}
+
+export class ResultOfUpdateBookingCommandDto implements IResultOfUpdateBookingCommandDto {
+    data?: UpdateBookingCommandDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+
+    constructor(data?: IResultOfUpdateBookingCommandDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.data = _data["data"] ? UpdateBookingCommandDto.fromJS(_data["data"]) : <any>undefined;
+            this.message = _data["message"];
+            this.resultType = _data["resultType"];
+        }
+    }
+
+    static fromJS(data: any): ResultOfUpdateBookingCommandDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultOfUpdateBookingCommandDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["message"] = this.message;
+        data["resultType"] = this.resultType;
+        return data;
+    }
+}
+
+export interface IResultOfUpdateBookingCommandDto {
+    data?: UpdateBookingCommandDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+}
+
+export class UpdateBookingCommandDto implements IUpdateBookingCommandDto {
+    id?: string | undefined;
+    updatedDate?: Date;
+
+    constructor(data?: IUpdateBookingCommandDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.updatedDate = _data["updatedDate"] ? new Date(_data["updatedDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpdateBookingCommandDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateBookingCommandDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["updatedDate"] = this.updatedDate ? this.updatedDate.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IUpdateBookingCommandDto {
+    id?: string | undefined;
+    updatedDate?: Date;
+}
+
+export class UpdateBookingCommand implements IUpdateBookingCommand {
+    uniqueId?: string | undefined;
+    flightId?: number | undefined;
+    flightDate?: Date | undefined;
+    origin?: string | undefined;
+    destination?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    middleName?: string | undefined;
+    street?: string | undefined;
+    city?: string | undefined;
+    province?: string | undefined;
+    region?: string | undefined;
+    zipCode?: string | undefined;
+    contactNumber?: string | undefined;
+
+    constructor(data?: IUpdateBookingCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.uniqueId = _data["uniqueId"];
+            this.flightId = _data["flightId"];
+            this.flightDate = _data["flightDate"] ? new Date(_data["flightDate"].toString()) : <any>undefined;
+            this.origin = _data["origin"];
+            this.destination = _data["destination"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.middleName = _data["middleName"];
+            this.street = _data["street"];
+            this.city = _data["city"];
+            this.province = _data["province"];
+            this.region = _data["region"];
+            this.zipCode = _data["zipCode"];
+            this.contactNumber = _data["contactNumber"];
+        }
+    }
+
+    static fromJS(data: any): UpdateBookingCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateBookingCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["uniqueId"] = this.uniqueId;
+        data["flightId"] = this.flightId;
+        data["flightDate"] = this.flightDate ? this.flightDate.toISOString() : <any>undefined;
+        data["origin"] = this.origin;
+        data["destination"] = this.destination;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["middleName"] = this.middleName;
+        data["street"] = this.street;
+        data["city"] = this.city;
+        data["province"] = this.province;
+        data["region"] = this.region;
+        data["zipCode"] = this.zipCode;
+        data["contactNumber"] = this.contactNumber;
+        return data;
+    }
+}
+
+export interface IUpdateBookingCommand {
+    uniqueId?: string | undefined;
     flightId?: number | undefined;
     flightDate?: Date | undefined;
     origin?: string | undefined;

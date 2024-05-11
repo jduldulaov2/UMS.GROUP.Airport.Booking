@@ -1,6 +1,8 @@
 ﻿
 using UMS.GROUP.Airport.Booking.Application.Airport.Command.CreateAirport;
+using UMS.GROUP.Airport.Booking.Application.Airport.Command.UpdateAirport;
 using UMS.GROUP.Airport.Booking.Application.Booking.Command.CreateBooking;
+using UMS.GROUP.Airport.Booking.Application.Booking.Command.UpdateBooking;
 using UMS.GROUP.Airport.Booking.Application.Booking.Queries.GetAllBooking;
 using UMS.GROUP.Airport.Booking.Application.Booking.Queries.GetBookingById;
 using UMS.GROUP.Airport.Booking.Application.Booking.Queries.GetBookingByName;
@@ -17,6 +19,7 @@ public class Bookings : EndpointGroupBase
             .MapGet(GetBookingById, "GetBookingById")
             .MapGet(GetBookingByName, "GetBookingByName")
             .MapPost(CreateBooking, "CreateBooking")
+            .MapPut(UpdateBooking, "UpdateBooking")
             ;
     }
 
@@ -37,6 +40,11 @@ public class Bookings : EndpointGroupBase
     }
 
     public Task<Result<CreateBookingCommandDto>> CreateBooking(ISender sender, CreateBookingCommand command)
+    {
+        return sender.Send(command);
+    }
+
+    public Task<Result<UpdateBookingCommandDto>> UpdateBooking(ISender sender, UpdateBookingCommand command)
     {
         return sender.Send(command);
     }

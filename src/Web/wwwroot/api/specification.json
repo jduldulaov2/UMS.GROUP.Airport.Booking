@@ -425,6 +425,38 @@
         }
       }
     },
+    "/api/Bookings/UpdateBooking": {
+      "put": {
+        "tags": [
+          "Bookings"
+        ],
+        "operationId": "UpdateBooking",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookingCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfUpdateBookingCommandDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Country": {
       "get": {
         "tags": [
@@ -1763,6 +1795,104 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "flightId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "flightDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "origin": {
+            "type": "string",
+            "nullable": true
+          },
+          "destination": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfUpdateBookingCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UpdateBookingCommandDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "UpdateBookingCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateBookingCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "uniqueId": {
+            "type": "string",
+            "nullable": true
+          },
           "flightId": {
             "type": "integer",
             "format": "int32",
