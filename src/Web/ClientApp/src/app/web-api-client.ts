@@ -888,6 +888,7 @@ export interface IPlanesClient {
     getAllPlanes(): Observable<GetAllPlanesQueryDto[]>;
     getPlaneById(uniqueId: string | null | undefined): Observable<ResultOfGetPlaneByIdQueryDto>;
     getPlaneByName(airlineName: string | null | undefined): Observable<GetPlaneByNameQueryDto[]>;
+    createAirline(command: CreateAirlineCommand): Observable<ResultOfCreateAirlineCommandDto>;
 }
 
 @Injectable({
@@ -1055,6 +1056,58 @@ export class PlanesClient implements IPlanesClient {
             else {
                 result200 = <any>null;
             }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    createAirline(command: CreateAirlineCommand): Observable<ResultOfCreateAirlineCommandDto> {
+        let url_ = this.baseUrl + "/api/Planes/CreateAirline";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateAirline(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateAirline(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ResultOfCreateAirlineCommandDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ResultOfCreateAirlineCommandDto>;
+        }));
+    }
+
+    protected processCreateAirline(response: HttpResponseBase): Observable<ResultOfCreateAirlineCommandDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ResultOfCreateAirlineCommandDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2970,6 +3023,134 @@ export interface IGetPlaneByNameQueryDto {
     model?: string | undefined;
     uniqueId?: string | undefined;
     isActive?: boolean | undefined;
+}
+
+export class ResultOfCreateAirlineCommandDto implements IResultOfCreateAirlineCommandDto {
+    data?: CreateAirlineCommandDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+
+    constructor(data?: IResultOfCreateAirlineCommandDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.data = _data["data"] ? CreateAirlineCommandDto.fromJS(_data["data"]) : <any>undefined;
+            this.message = _data["message"];
+            this.resultType = _data["resultType"];
+        }
+    }
+
+    static fromJS(data: any): ResultOfCreateAirlineCommandDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultOfCreateAirlineCommandDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["message"] = this.message;
+        data["resultType"] = this.resultType;
+        return data;
+    }
+}
+
+export interface IResultOfCreateAirlineCommandDto {
+    data?: CreateAirlineCommandDto | undefined;
+    message?: string;
+    resultType?: ResultType;
+}
+
+export class CreateAirlineCommandDto implements ICreateAirlineCommandDto {
+    id?: string | undefined;
+    createdDate?: Date;
+
+    constructor(data?: ICreateAirlineCommandDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CreateAirlineCommandDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAirlineCommandDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface ICreateAirlineCommandDto {
+    id?: string | undefined;
+    createdDate?: Date;
+}
+
+export class CreateAirlineCommand implements ICreateAirlineCommand {
+    airlineName?: string | undefined;
+    code?: string | undefined;
+    model?: string | undefined;
+
+    constructor(data?: ICreateAirlineCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.airlineName = _data["airlineName"];
+            this.code = _data["code"];
+            this.model = _data["model"];
+        }
+    }
+
+    static fromJS(data: any): CreateAirlineCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAirlineCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["airlineName"] = this.airlineName;
+        data["code"] = this.code;
+        data["model"] = this.model;
+        return data;
+    }
+}
+
+export interface ICreateAirlineCommand {
+    airlineName?: string | undefined;
+    code?: string | undefined;
+    model?: string | undefined;
 }
 
 export class ResultOfSystemEnvironmentQueryDto implements IResultOfSystemEnvironmentQueryDto {

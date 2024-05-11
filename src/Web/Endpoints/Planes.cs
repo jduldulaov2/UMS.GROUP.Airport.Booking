@@ -1,7 +1,9 @@
 ﻿using UMS.GROUP.Airport.Booking.Application.Common.Models;
+using UMS.GROUP.Airport.Booking.Application.Plane.Command.CreateAirline;
 using UMS.GROUP.Airport.Booking.Application.Plane.Queries.GetAllPlanes;
 using UMS.GROUP.Airport.Booking.Application.Plane.Queries.GetPlaneById;
 using UMS.GROUP.Airport.Booking.Application.Plane.Queries.GetPlaneByName;
+using UMS.GROUP.Airport.Booking.Application.SystemEnvironment.Commands.CreateSystemEnvironment;
 
 namespace UMS.GROUP.Airport.Booking.Web.Endpoints;
 
@@ -13,6 +15,7 @@ public class Planes : EndpointGroupBase
             .MapGet(GetAllPlanes, "GetAllPlanes")
             .MapGet(GetPlaneById, "GetPlaneById")
             .MapGet(GetPlaneByName, "GetPlaneByName")
+            .MapPost(CreateAirline, "CreateAirline")
             ;
     }
 
@@ -30,6 +33,11 @@ public class Planes : EndpointGroupBase
     public async Task<List<GetPlaneByNameQueryDto>> GetPlaneByName(ISender sender, [AsParameters] GetPlaneByNameQuery query)
     {
         return await sender.Send(query);
+    }
+
+    public Task<Result<CreateAirlineCommandDto>> CreateAirline(ISender sender, CreateAirlineCommand command)
+    {
+        return sender.Send(command);
     }
 
 }

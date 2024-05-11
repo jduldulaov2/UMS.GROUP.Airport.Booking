@@ -531,6 +531,38 @@
         }
       }
     },
+    "/api/Planes/CreateAirline": {
+      "post": {
+        "tags": [
+          "Planes"
+        ],
+        "operationId": "CreateAirline",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAirlineCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfCreateAirlineCommandDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/SystemEnvironments": {
       "get": {
         "tags": [
@@ -1682,6 +1714,58 @@
           },
           "isActive": {
             "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfCreateAirlineCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CreateAirlineCommandDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "CreateAirlineCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateAirlineCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "airlineName": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
             "nullable": true
           }
         }
