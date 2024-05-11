@@ -161,6 +161,38 @@
         }
       }
     },
+    "/api/Airport/UpdateAirport": {
+      "put": {
+        "tags": [
+          "Airport"
+        ],
+        "operationId": "UpdateAirport",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAirportCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfUpdateAirportCommandDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Auth/Login": {
       "get": {
         "tags": [
@@ -652,6 +684,38 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResultOfCreateAirlineCommandDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Planes/UpdateAirline": {
+      "put": {
+        "tags": [
+          "Planes"
+        ],
+        "operationId": "UpdateAirline",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAirlineCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfUpdateAirlineCommandDto"
                 }
               }
             }
@@ -1198,6 +1262,79 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "airportName": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfUpdateAirportCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UpdateAirportCommandDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "UpdateAirportCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateAirportCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "uniqueId": {
+            "type": "string",
+            "nullable": true
+          },
           "airportName": {
             "type": "string",
             "nullable": true
@@ -2069,6 +2206,62 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "airlineName": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfUpdateAirlineCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UpdateAirlineCommandDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "UpdateAirlineCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateAirlineCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "uniqueId": {
+            "type": "string",
+            "nullable": true
+          },
           "airlineName": {
             "type": "string",
             "nullable": true

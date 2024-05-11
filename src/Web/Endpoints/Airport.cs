@@ -1,11 +1,13 @@
 ﻿
 using UMS.GROUP.Airport.Booking.Application.Airport.Command.CreateAirport;
+using UMS.GROUP.Airport.Booking.Application.Airport.Command.UpdateAirport;
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GelAllAirportByCountry;
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAirportById;
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAirportByName;
 using UMS.GROUP.Airport.Booking.Application.Airport.Queries.GetAllAirport;
 using UMS.GROUP.Airport.Booking.Application.Common.Models;
 using UMS.GROUP.Airport.Booking.Application.Plane.Command.CreateAirline;
+using UMS.GROUP.Airport.Booking.Application.SystemEnvironment.Commands.UpdateSystemEnvironment;
 
 namespace UMS.GROUP.Airport.Booking.Web.Endpoints;
 
@@ -19,6 +21,7 @@ public class Airport : EndpointGroupBase
             .MapGet(GetAllAirport, "GetAllAirport")
             .MapGet(GetAirportByName, "GetAirportByName")
             .MapPost(CreateAirport, "CreateAirport")
+            .MapPut(UpdateAirport, "UpdateAirport")
             ;
     }
 
@@ -44,6 +47,11 @@ public class Airport : EndpointGroupBase
     }
 
     public Task<Result<CreateAirportCommandDto>> CreateAirport(ISender sender, CreateAirportCommand command)
+    {
+        return sender.Send(command);
+    }
+
+    public Task<Result<UpdateAirportCommandDto>> UpdateAirport(ISender sender, UpdateAirportCommand command)
     {
         return sender.Send(command);
     }
