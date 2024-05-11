@@ -67,7 +67,7 @@
                     <tbody>
                         <tr *ngFor="let item of bookingDto">
                             <td>
-                                <div class="members-avatar" style="background: #20c997;">		
+                                <div class="members-avatar" style="background: {{item.avatarColor}}">		
                                     {{item.avatar}}
                                 </div>
                             </td>

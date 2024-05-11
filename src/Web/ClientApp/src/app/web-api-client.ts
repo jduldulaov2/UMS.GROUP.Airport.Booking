@@ -2216,6 +2216,7 @@ export class GetAllBookingQueryDto implements IGetAllBookingQueryDto {
     zipCode?: string | undefined;
     contactNumber?: string | undefined;
     uniqueId?: string | undefined;
+    avatarColor?: string | undefined;
 
     constructor(data?: IGetAllBookingQueryDto) {
         if (data) {
@@ -2247,6 +2248,7 @@ export class GetAllBookingQueryDto implements IGetAllBookingQueryDto {
             this.zipCode = _data["zipCode"];
             this.contactNumber = _data["contactNumber"];
             this.uniqueId = _data["uniqueId"];
+            this.avatarColor = _data["avatarColor"];
         }
     }
 
@@ -2278,6 +2280,7 @@ export class GetAllBookingQueryDto implements IGetAllBookingQueryDto {
         data["zipCode"] = this.zipCode;
         data["contactNumber"] = this.contactNumber;
         data["uniqueId"] = this.uniqueId;
+        data["avatarColor"] = this.avatarColor;
         return data;
     }
 }
@@ -2302,6 +2305,7 @@ export interface IGetAllBookingQueryDto {
     zipCode?: string | undefined;
     contactNumber?: string | undefined;
     uniqueId?: string | undefined;
+    avatarColor?: string | undefined;
 }
 
 export class GetBookingByIdQueryDto implements IGetBookingByIdQueryDto {
@@ -2324,6 +2328,7 @@ export class GetBookingByIdQueryDto implements IGetBookingByIdQueryDto {
     zipCode?: string | undefined;
     contactNumber?: string | undefined;
     uniqueId?: string | undefined;
+    avatarColor?: string | undefined;
 
     constructor(data?: IGetBookingByIdQueryDto) {
         if (data) {
@@ -2355,6 +2360,7 @@ export class GetBookingByIdQueryDto implements IGetBookingByIdQueryDto {
             this.zipCode = _data["zipCode"];
             this.contactNumber = _data["contactNumber"];
             this.uniqueId = _data["uniqueId"];
+            this.avatarColor = _data["avatarColor"];
         }
     }
 
@@ -2386,6 +2392,7 @@ export class GetBookingByIdQueryDto implements IGetBookingByIdQueryDto {
         data["zipCode"] = this.zipCode;
         data["contactNumber"] = this.contactNumber;
         data["uniqueId"] = this.uniqueId;
+        data["avatarColor"] = this.avatarColor;
         return data;
     }
 }
@@ -2410,6 +2417,7 @@ export interface IGetBookingByIdQueryDto {
     zipCode?: string | undefined;
     contactNumber?: string | undefined;
     uniqueId?: string | undefined;
+    avatarColor?: string | undefined;
 }
 
 export class GetBookingByNameQueryDto implements IGetBookingByNameQueryDto {
@@ -2432,6 +2440,7 @@ export class GetBookingByNameQueryDto implements IGetBookingByNameQueryDto {
     zipCode?: string | undefined;
     contactNumber?: string | undefined;
     uniqueId?: string | undefined;
+    avatarColor?: string | undefined;
 
     constructor(data?: IGetBookingByNameQueryDto) {
         if (data) {
@@ -2463,6 +2472,7 @@ export class GetBookingByNameQueryDto implements IGetBookingByNameQueryDto {
             this.zipCode = _data["zipCode"];
             this.contactNumber = _data["contactNumber"];
             this.uniqueId = _data["uniqueId"];
+            this.avatarColor = _data["avatarColor"];
         }
     }
 
@@ -2494,6 +2504,7 @@ export class GetBookingByNameQueryDto implements IGetBookingByNameQueryDto {
         data["zipCode"] = this.zipCode;
         data["contactNumber"] = this.contactNumber;
         data["uniqueId"] = this.uniqueId;
+        data["avatarColor"] = this.avatarColor;
         return data;
     }
 }
@@ -2518,6 +2529,7 @@ export interface IGetBookingByNameQueryDto {
     zipCode?: string | undefined;
     contactNumber?: string | undefined;
     uniqueId?: string | undefined;
+    avatarColor?: string | undefined;
 }
 
 export class GetAllCountryQueryDto implements IGetAllCountryQueryDto {

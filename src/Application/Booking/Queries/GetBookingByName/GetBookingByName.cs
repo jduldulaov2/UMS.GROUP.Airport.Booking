@@ -49,6 +49,7 @@ public class GetMediaDetailQueryHandler : IRequestHandler<GetBookingByNameQuery,
                           UniqueId = booking.UniqueId,
                           ZipCode = booking.ZipCode,
                           Avatar = StringInfo.GetNextTextElement(booking.FirstName!, 0).ToUpper() + "" + StringInfo.GetNextTextElement(booking.LastName!, 0).ToUpper(),
+                          AvatarColor = booking.AvatarColor
                       }).ToListAsync();
     }
 }

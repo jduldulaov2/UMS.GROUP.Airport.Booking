@@ -45,4 +45,6 @@ public class GetAllBookingQueryDto
     public string? ContactNumber { get; set; }
 
     public string? UniqueId { get; set; }
+
+    public string? AvatarColor { get; set; }
 }
