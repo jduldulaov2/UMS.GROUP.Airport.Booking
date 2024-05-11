@@ -361,6 +361,38 @@
         }
       }
     },
+    "/api/Bookings/CreateBooking": {
+      "post": {
+        "tags": [
+          "Bookings"
+        ],
+        "operationId": "CreateBooking",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultOfCreateBookingCommandDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Country": {
       "get": {
         "tags": [
@@ -1599,6 +1631,100 @@
             "nullable": true
           },
           "avatarColor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ResultOfCreateBookingCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CreateBookingCommandDto"
+              }
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "resultType": {
+            "$ref": "#/components/schemas/ResultType"
+          }
+        }
+      },
+      "CreateBookingCommandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateBookingCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "flightId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "flightDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "origin": {
+            "type": "string",
+            "nullable": true
+          },
+          "destination": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactNumber": {
             "type": "string",
             "nullable": true
           }
