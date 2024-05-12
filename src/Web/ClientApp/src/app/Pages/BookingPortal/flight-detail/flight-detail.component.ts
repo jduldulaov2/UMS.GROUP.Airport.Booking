@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AirportClient, FlightsClient, GetAllAirportQueryDto, GetAllPlanesQueryDto, PlanesClient } from '../../../web-api-client';
+import { AirportClient, CreateFlightCommand, FlightsClient, GetAllAirportQueryDto, GetAllPlanesQueryDto, PlanesClient } from '../../../web-api-client';
 import { SpinnerServiceService } from '../../../Services/Shared/spinner-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -21,7 +21,8 @@ export class FlightDetailComponent {
     private loader: SpinnerServiceService,
     private route: ActivatedRoute,
     private airportClient: AirportClient,
-    private airlineClient: PlanesClient
+    private airlineClient: PlanesClient,
+    private router: Router
   ) {
   }
 
@@ -89,6 +90,52 @@ export class FlightDetailComponent {
       },
       error: error => console.error(error)
     });
+  }
+
+  CreateFlight(inputFlightCode: any, inputAirport: any, inputAirline: any) {
+
+    var errorMessage = '';
+
+    const list = {
+      flightCode: inputFlightCode,
+      airportId: inputAirport,
+      planeId: inputAirline
+    };
+
+    if(inputFlightCode == ''){
+      errorMessage += "Flight Code is required<br>";
+    }
+
+    if(inputAirport == '0'){
+      errorMessage += "Airport is required<br>";
+    }
+
+    if(inputAirline == '0'){
+      errorMessage += "Airline is required<br>";
+    }
+  
+    if(errorMessage == ''){
+      this.flightClient.createFlight(list as CreateFlightCommand).subscribe(
+        result => {
+          if(result.resultType == 1){
+            this.router.navigate(['/portal/manage-flights',result.data?.id,'detail']);
+          }else{
+            this.DisplayErrorMessage(result.message);
+          }
+        },
+        error => {
+          const errors = JSON.parse(error.response).errors;
+          this.DisplayErrorMessage(errors);
+        }
+      );
+    }else{
+      this.DisplayErrorMessage(errorMessage);
+    }
+  }
+
+  DisplayErrorMessage(message: any){
+    $("#errorMessage").html(message);
+    $("#alert").show();
   }
 
 }
