@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AirportClient, CountryClient, GetAirportByIdQueryDto, GetAllCountryQueryDto } from '../../../web-api-client';
+import { AirportClient, CountryClient, CreateAirportCommand, GetAirportByIdQueryDto, GetAllCountryQueryDto } from '../../../web-api-client';
 import { SpinnerServiceService } from '../../../Services/Shared/spinner-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -16,6 +16,7 @@ export class AirportDetailComponent {
   uniqueKey!: any;
 
   constructor(
+    private router: Router,
     private airportClient: AirportClient,
     private countryClient: CountryClient,
     private loader: SpinnerServiceService,
@@ -25,7 +26,6 @@ export class AirportDetailComponent {
 
   ngOnInit(){
     this.loader.ShowLoader();
-
     this.uniqueKey = this.route.snapshot.paramMap.get('key');
 
     if(this.uniqueKey!= null){
@@ -53,6 +53,56 @@ export class AirportDetailComponent {
       },
       error: error => console.error(error)
     });
+  }
+
+  
+  CreateAirport(inputAirport: any, inputCountry: any , inputStreet: any, inputCity: any, inputProvince: any, inputRegion: any, inputZipCode: any){
+
+    var errorMessage = '';
+
+    const list = {
+      airportName: inputAirport,
+      street: inputStreet,
+      city: inputCity,
+      province: inputProvince,
+      region: inputRegion,
+      zipCode: inputZipCode,
+      countryId: inputCountry,
+      isActive: true
+    };
+
+    if(inputAirport == ''){
+      errorMessage += "Airport is required<br>";
+    }
+
+    if(inputCountry == 0){
+      errorMessage += "Country is required<br>";
+    }
+  
+    if(errorMessage == ''){
+      this.airportClient.createAirport(list as CreateAirportCommand).subscribe(
+        result => {
+          if(result.resultType == 1){
+            this.router.navigate(['/portal/manage-airport',result.data?.id,'detail']);
+          }else{
+            this.DisplayErrorMessage(result.message);
+          }
+        },
+        error => {
+          const errors = JSON.parse(error.response).errors;
+          this.DisplayErrorMessage(errors);
+        }
+      );
+    }else{
+      this.DisplayErrorMessage(errorMessage);
+    }
+
+
+  }
+
+  DisplayErrorMessage(message: any){
+    $("#errorMessage").html(message);
+    $("#alert").show();
   }
 
   getAirportById(id: any): void {

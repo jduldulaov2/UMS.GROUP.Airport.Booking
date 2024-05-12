@@ -2246,6 +2246,7 @@ export class CreateAirportCommand implements ICreateAirportCommand {
     region?: string | undefined;
     zipCode?: string | undefined;
     countryId?: number | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: ICreateAirportCommand) {
         if (data) {
@@ -2265,6 +2266,7 @@ export class CreateAirportCommand implements ICreateAirportCommand {
             this.region = _data["region"];
             this.zipCode = _data["zipCode"];
             this.countryId = _data["countryId"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -2284,6 +2286,7 @@ export class CreateAirportCommand implements ICreateAirportCommand {
         data["region"] = this.region;
         data["zipCode"] = this.zipCode;
         data["countryId"] = this.countryId;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -2296,6 +2299,7 @@ export interface ICreateAirportCommand {
     region?: string | undefined;
     zipCode?: string | undefined;
     countryId?: number | undefined;
+    isActive?: boolean | undefined;
 }
 
 export class ResultOfUpdateAirportCommandDto implements IResultOfUpdateAirportCommandDto {
@@ -2391,6 +2395,7 @@ export class UpdateAirportCommand implements IUpdateAirportCommand {
     region?: string | undefined;
     zipCode?: string | undefined;
     countryId?: number | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: IUpdateAirportCommand) {
         if (data) {
@@ -2411,6 +2416,7 @@ export class UpdateAirportCommand implements IUpdateAirportCommand {
             this.region = _data["region"];
             this.zipCode = _data["zipCode"];
             this.countryId = _data["countryId"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -2431,6 +2437,7 @@ export class UpdateAirportCommand implements IUpdateAirportCommand {
         data["region"] = this.region;
         data["zipCode"] = this.zipCode;
         data["countryId"] = this.countryId;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -2444,6 +2451,7 @@ export interface IUpdateAirportCommand {
     region?: string | undefined;
     zipCode?: string | undefined;
     countryId?: number | undefined;
+    isActive?: boolean | undefined;
 }
 
 export class ResultOfLoginDto implements IResultOfLoginDto {
@@ -3939,6 +3947,7 @@ export class UpdateFlightCommand implements IUpdateFlightCommand {
     flightCode?: string | undefined;
     airportId?: number | undefined;
     planeId?: number | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: IUpdateFlightCommand) {
         if (data) {
@@ -3955,6 +3964,7 @@ export class UpdateFlightCommand implements IUpdateFlightCommand {
             this.flightCode = _data["flightCode"];
             this.airportId = _data["airportId"];
             this.planeId = _data["planeId"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -3971,6 +3981,7 @@ export class UpdateFlightCommand implements IUpdateFlightCommand {
         data["flightCode"] = this.flightCode;
         data["airportId"] = this.airportId;
         data["planeId"] = this.planeId;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -3980,6 +3991,7 @@ export interface IUpdateFlightCommand {
     flightCode?: string | undefined;
     airportId?: number | undefined;
     planeId?: number | undefined;
+    isActive?: boolean | undefined;
 }
 
 export class GetAllPlanesQueryDto implements IGetAllPlanesQueryDto {
@@ -4411,6 +4423,7 @@ export class UpdateAirlineCommand implements IUpdateAirlineCommand {
     airlineName?: string | undefined;
     code?: string | undefined;
     model?: string | undefined;
+    isActive?: boolean | undefined;
 
     constructor(data?: IUpdateAirlineCommand) {
         if (data) {
@@ -4427,6 +4440,7 @@ export class UpdateAirlineCommand implements IUpdateAirlineCommand {
             this.airlineName = _data["airlineName"];
             this.code = _data["code"];
             this.model = _data["model"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -4443,6 +4457,7 @@ export class UpdateAirlineCommand implements IUpdateAirlineCommand {
         data["airlineName"] = this.airlineName;
         data["code"] = this.code;
         data["model"] = this.model;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -4452,6 +4467,7 @@ export interface IUpdateAirlineCommand {
     airlineName?: string | undefined;
     code?: string | undefined;
     model?: string | undefined;
+    isActive?: boolean | undefined;
 }
 
 export class ResultOfUsersListDto implements IResultOfUsersListDto {

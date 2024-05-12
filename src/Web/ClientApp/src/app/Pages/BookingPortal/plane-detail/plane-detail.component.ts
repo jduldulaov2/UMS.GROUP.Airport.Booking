@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { PlanesClient } from '../../../web-api-client';
+import { CreateAirlineCommand, PlanesClient } from '../../../web-api-client';
 import { SpinnerServiceService } from '../../../Services/Shared/spinner-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -16,7 +16,8 @@ export class PlaneDetailComponent {
   constructor(
     private planeClient: PlanesClient,
     private loader: SpinnerServiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
@@ -27,6 +28,52 @@ export class PlaneDetailComponent {
     if(this.uniqueKey != null){
       this.getAirportById(this.uniqueKey);
     }
+  }
+
+  SaveAirline(inputAirlineName: any, inputCode: any, inputAirlineModel: any) {
+
+    var errorMessage = '';
+
+    const list = {
+      airlineName: inputAirlineName,
+      code: inputCode,
+      model: inputAirlineModel
+    };
+
+    if(inputAirlineName == ''){
+      errorMessage += "Airline is required<br>";
+    }
+
+    if(inputCode == ''){
+      errorMessage += "Airline Code is required<br>";
+    }
+
+    if(inputAirlineModel == ''){
+      errorMessage += "Airline Model Code is required<br>";
+    }
+  
+    if(errorMessage == ''){
+      this.planeClient.createAirline(list as CreateAirlineCommand).subscribe(
+        result => {
+          if(result.resultType == 1){
+            this.router.navigate(['/portal/manage-planes',result.data?.id,'detail']);
+          }else{
+            this.DisplayErrorMessage(result.message);
+          }
+        },
+        error => {
+          const errors = JSON.parse(error.response).errors;
+          this.DisplayErrorMessage(errors);
+        }
+      );
+    }else{
+      this.DisplayErrorMessage(errorMessage);
+    }
+  }
+
+  DisplayErrorMessage(message: any){
+    $("#errorMessage").html(message);
+    $("#alert").show();
   }
 
   getAirportById(id: any): void {

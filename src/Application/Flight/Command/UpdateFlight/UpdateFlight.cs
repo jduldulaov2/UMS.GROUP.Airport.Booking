@@ -11,6 +11,8 @@ public record UpdateFlightCommand : IRequest<Result<UpdateFlightCommandDto>>
     public int? AirportId { get; init; }
 
     public int? PlaneId { get; init; }
+
+    public bool? IsActive {  get; init; }
 }
 
 public class UpdateFlightCommandHandler : IRequestHandler<UpdateFlightCommand, Result<UpdateFlightCommandDto>>
@@ -37,6 +39,8 @@ public class UpdateFlightCommandHandler : IRequestHandler<UpdateFlightCommand, R
                 entity.AirportId = request.AirportId;
 
                 entity.PlaneId = request.PlaneId;
+
+                entity.IsActive = request.IsActive;
 
                 _context.Flight.Update(entity);
 

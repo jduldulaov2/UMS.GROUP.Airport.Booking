@@ -20,6 +20,8 @@ public record UpdateAirportCommand : IRequest<Result<UpdateAirportCommandDto>>
     public string? ZipCode { get; init; }
 
     public int? CountryId { get; init; }
+
+    public bool? IsActive { get; init; }
 }
 
 public class UpdateAirportCommandHandler : IRequestHandler<UpdateAirportCommand, Result<UpdateAirportCommandDto>>
@@ -54,6 +56,8 @@ public class UpdateAirportCommandHandler : IRequestHandler<UpdateAirportCommand,
                 entity.ZipCode = request.ZipCode;
 
                 entity.CountryId = request.CountryId;
+
+                entity.IsActive = request.IsActive;
 
                 _context.Airport.Update(entity);
 

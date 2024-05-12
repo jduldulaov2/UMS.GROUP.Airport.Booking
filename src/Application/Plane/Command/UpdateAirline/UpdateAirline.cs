@@ -12,6 +12,8 @@ public record UpdateAirlineCommand : IRequest<Result<UpdateAirlineCommandDto>>
     public string? Code { get; init; }
 
     public string? Model { get; init; }
+
+    public bool? IsActive { get; init; }
 }
 
 public class UpdateAirlineCommandHandler : IRequestHandler<UpdateAirlineCommand, Result<UpdateAirlineCommandDto>>
@@ -38,6 +40,8 @@ public class UpdateAirlineCommandHandler : IRequestHandler<UpdateAirlineCommand,
                 entity.Code = request.Code;
 
                 entity.Model = request.Model;
+
+                entity.IsActive = request.IsActive;
 
                 _context.Plane.Update(entity);
 

@@ -18,6 +18,8 @@ public record CreateAirportCommand : IRequest<Result<CreateAirportCommandDto>>
     public string? ZipCode { get; init; }
 
     public int? CountryId { get; init; }
+
+    public bool? IsActive { get; init; }
 }
 
 public class CreateAirportCommandHandler : IRequestHandler<CreateAirportCommand, Result<CreateAirportCommandDto>>
@@ -53,6 +55,8 @@ public class CreateAirportCommandHandler : IRequestHandler<CreateAirportCommand,
             entity.ZipCode = request.ZipCode;
 
             entity.CountryId = request.CountryId;
+
+            entity.IsActive = request.IsActive;
 
             _context.Airport.Add(entity);
 
