@@ -41,7 +41,8 @@ export class PlaneDetailComponent {
       uniqueId: this.uniqueKey,
       airlineName: inputAirlineName,
       code: inputCode,
-      model: inputAirlineModel
+      model: inputAirlineModel,
+      isActive: _isChecked
     };
 
     if(inputAirlineName == ''){
@@ -82,7 +83,7 @@ export class PlaneDetailComponent {
   SaveAirline(inputAirlineName: any, inputCode: any, inputAirlineModel: any) {
 
     this.loader.ShowLoader();
-    
+
     var errorMessage = '';
 
     const list = {
