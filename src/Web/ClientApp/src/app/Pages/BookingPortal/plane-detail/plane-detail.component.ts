@@ -62,7 +62,7 @@ export class PlaneDetailComponent {
         result => {
           if(result.resultType == 1){
             this.loader.ShowToast("Plane details has been successfully updated.", "success");
-            this.router.navigate(['/portal/manage-planes',result.data?.id,'detail']);
+            this.loader.HideErrorMessage();
           }else{
             this.loader.DisplayErrorMessage(result.message);
             this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");

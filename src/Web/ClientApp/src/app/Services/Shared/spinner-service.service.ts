@@ -16,6 +16,11 @@ export class SpinnerServiceService {
     $("#errorMessage").html(message);
     $("#alert").show();
   }
+
+  HideErrorMessage() {
+    $("#errorMessage").html();
+    $("#alert").hide();
+  }
   
   ShowToast(message: any, type: any){
 

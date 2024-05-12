@@ -136,6 +136,7 @@ export class AirportDetailComponent {
         result => {
           if(result.resultType == 1){
             this.loader.ShowToast("Airport has been successfully updated.", "success");
+            this.loader.HideErrorMessage();
           }else{
             this.loader.DisplayErrorMessage(result.message);
             this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");

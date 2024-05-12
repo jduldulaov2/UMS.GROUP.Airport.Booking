@@ -104,7 +104,7 @@ export class BookingDetailComponent {
         result => {
           if(result.resultType == 1){
             this.loader.ShowToast("Booking has been successfully updated.", "success");
-            this.router.navigate(['/portal/manage-bookings',result.data?.id,'detail']);
+            this.loader.HideErrorMessage();
           }else{
             this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
             this.loader.DisplayErrorMessage(result.message);
