@@ -159,7 +159,7 @@
                               </div>
                               <div class="offset-sm-2 col-sm-10"  *ngIf="uniqueKey != null">
                                 <button type="submit" class="btn btn-danger" [routerLink]="['/portal/manage-bookings']" style="margin-right: 10px;">Back</button>
-                                <button type="submit" class="btn btn-primary">Update / Save</button>
+                                <button type="submit" (click)="UpdateBooking(inputFlightId.value, inputFlightDate.value, inputLastName.value, inputFirstName.value, inputMiddleName.value, inputContactNumber.value, inputStreet.value, inputCity.value, inputProvince.value, inputRegion.value, inputZipCode.value)"  class="btn btn-primary">Update / Save</button>
                               </div>
                             </div>
                             <div class="alert alert-danger alert-dismissible collapse" role="alert" id="alert">

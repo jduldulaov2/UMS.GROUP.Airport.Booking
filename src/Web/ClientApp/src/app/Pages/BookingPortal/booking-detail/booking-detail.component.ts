@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BookingsClient, CreateBookingCommand, FlightsClient, GetAllFlightQueryDto } from '../../../web-api-client';
+import { BookingsClient, CreateBookingCommand, FlightsClient, GetAllFlightQueryDto, UpdateBookingCommand } from '../../../web-api-client';
 import { SpinnerServiceService } from '../../../Services/Shared/spinner-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 declare var $: any;
@@ -58,12 +58,78 @@ export class BookingDetailComponent {
     });
   }
 
+  UpdateBooking(inputFlightId: any, inputFlightDate: any, inputLastName: any, inputFirstName: any, 
+    inputMiddleName: any, inputContactNumber: any, inputStreet: any, inputCity: any, 
+    inputProvince: any, inputRegion: any, inputZipCode: any): void {
+      
+      this.loader.ShowLoader();
+
+   var errorMessage = '';
+
+    const list = {
+      uniqueId: this.uniqueKey,
+      flightId: inputFlightId,
+      flightDate: inputFlightDate,
+      origin: "",
+      destination: "",
+      firstName: inputFirstName,
+      lastName: inputLastName,
+      middleName: inputMiddleName,
+      street: inputStreet,
+      city: inputCity,
+      province: inputProvince,
+      region: inputRegion,
+      zipCode: inputZipCode,
+      contactNumber: inputContactNumber
+    };
+
+    if(inputFlightId == '0'){
+      errorMessage += "Flight # is required<br>";
+    }
+
+    if(inputFlightDate == ''){
+      errorMessage += "Flight Date is required<br>";
+    }
+
+    if(inputLastName == ''){
+      errorMessage += "LastName is required<br>";
+    }
+
+    if(inputFirstName == ''){
+      errorMessage += "FirstName is required<br>";
+    }
+  
+    if(errorMessage == ''){
+      this.bookingClient.updateBooking(list as UpdateBookingCommand).subscribe(
+        result => {
+          if(result.resultType == 1){
+            this.loader.ShowToast("Booking has been successfully updated.", "success");
+            this.router.navigate(['/portal/manage-bookings',result.data?.id,'detail']);
+          }else{
+            this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
+            this.loader.DisplayErrorMessage(result.message);
+          }
+        },
+        error => {
+          const errors = JSON.parse(error.response).errors;
+          this.loader.DisplayErrorMessage(errors);
+          this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
+        }
+      );
+    }else{
+      this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
+      this.loader.DisplayErrorMessage(errorMessage);
+    }
+
+  }
 
   CreateBooking(inputFlightId: any, inputFlightDate: any, inputLastName: any, inputFirstName: any, 
     inputMiddleName: any, inputContactNumber: any, inputStreet: any, inputCity: any, 
     inputProvince: any, inputRegion: any, inputZipCode: any): void {
       
-   var errorMessage = '';
+    this.loader.ShowLoader();
+
+    var errorMessage = '';
 
     const list = {
       flightId: inputFlightId,
@@ -124,7 +190,7 @@ export class BookingDetailComponent {
   getBookingById(id: any): void {
     this.bookingClient.getBookingById(id).subscribe({
       next: result => {
-        $("#inputFlight").val(result.data!.flightId!);
+        $("#inputFlightId").val(result.data!.flightId!);
         $("#inputLastName").val(result.data!.lastName!);
         $("#inputFirstName").val(result.data!.firstName!);
         $("#inputMiddleName").val(result.data!.middleName!);

@@ -37,7 +37,7 @@ public class GetMediaDetailQueryHandler : IRequestHandler<GetBookingByIdQuery, R
                 {
                     Id = result.Id,
                     FlightId = result.FlightId,
-                    FlightDate = result.FlightDate.ToString(),
+                    FlightDate = Convert.ToDateTime(result.FlightDate).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                     FirstName = result.FirstName,
                     LastName = result.LastName,
                     MiddleName = result.MiddleName,
