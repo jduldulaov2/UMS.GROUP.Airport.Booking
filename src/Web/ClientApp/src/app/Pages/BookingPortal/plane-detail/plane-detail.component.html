@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="offset-sm-2 col-sm-10"  *ngIf="uniqueKey != null">
                                       <button type="submit" class="btn btn-danger" [routerLink]="['/portal/manage-planes']" style="margin-right: 10px;">Back</button>
-                                      <button type="submit" class="btn btn-primary">Update / Save</button>
+                                      <button type="submit" (click)="UpdateAirline(inputAirlineName.value, inputCode.value, inputAirlineModel.value)" class="btn btn-primary">Update / Save</button>
                                     </div>
                                   </div>
                                   <div class="alert alert-danger alert-dismissible collapse" role="alert" id="alert">

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AirportClient, CountryClient, CreateAirportCommand, GetAirportByIdQueryDto, GetAllCountryQueryDto } from '../../../web-api-client';
+import { AirportClient, CountryClient, CreateAirportCommand, GetAirportByIdQueryDto, GetAllCountryQueryDto, UpdateAirportCommand } from '../../../web-api-client';
 import { SpinnerServiceService } from '../../../Services/Shared/spinner-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 declare var $: any;
@@ -58,6 +58,8 @@ export class AirportDetailComponent {
   
   CreateAirport(inputAirport: any, inputCountry: any , inputStreet: any, inputCity: any, inputProvince: any, inputRegion: any, inputZipCode: any){
 
+    this.loader.ShowLoader();
+
     var errorMessage = '';
 
     const list = {
@@ -83,26 +85,72 @@ export class AirportDetailComponent {
       this.airportClient.createAirport(list as CreateAirportCommand).subscribe(
         result => {
           if(result.resultType == 1){
+            this.loader.ShowToast("New Airport has been successfully added.", "success");
             this.router.navigate(['/portal/manage-airport',result.data?.id,'detail']);
           }else{
-            this.DisplayErrorMessage(result.message);
+            this.loader.DisplayErrorMessage(result.message);
+            this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
           }
         },
         error => {
           const errors = JSON.parse(error.response).errors;
-          this.DisplayErrorMessage(errors);
+          this.loader.DisplayErrorMessage(errors);
+          this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
         }
       );
     }else{
-      this.DisplayErrorMessage(errorMessage);
+      this.loader.DisplayErrorMessage(errorMessage);
+      this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
     }
-
-
   }
 
-  DisplayErrorMessage(message: any){
-    $("#errorMessage").html(message);
-    $("#alert").show();
+  UpdateAirport(inputAirport: any, inputCountry: any , inputStreet: any, inputCity: any, inputProvince: any, inputRegion: any, inputZipCode: any){
+
+    this.loader.ShowLoader();
+    
+    var errorMessage = '';
+    var _isChecked = $('#flexSwitchCheckChecked').is(":checked");
+
+    const list = {
+      uniqueId: this.uniqueKey,
+      airportName: inputAirport,
+      street: inputStreet,
+      city: inputCity,
+      province: inputProvince,
+      region: inputRegion,
+      zipCode: inputZipCode,
+      countryId: inputCountry,
+      isActive: _isChecked
+    };
+
+    if(inputAirport == ''){
+      errorMessage += "Airport is required<br>";
+    }
+
+    if(inputCountry == 0){
+      errorMessage += "Country is required<br>";
+    }
+  
+    if(errorMessage == ''){
+      this.airportClient.updateAirport(list as UpdateAirportCommand).subscribe(
+        result => {
+          if(result.resultType == 1){
+            this.loader.ShowToast("Airport has been successfully updated.", "success");
+          }else{
+            this.loader.DisplayErrorMessage(result.message);
+            this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
+          }
+        },
+        error => {
+          const errors = JSON.parse(error.response).errors;
+          this.loader.DisplayErrorMessage(errors);
+          this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
+        }
+      );
+    }else{
+      this.loader.DisplayErrorMessage(errorMessage);
+      this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
+    }
   }
 
   getAirportById(id: any): void {

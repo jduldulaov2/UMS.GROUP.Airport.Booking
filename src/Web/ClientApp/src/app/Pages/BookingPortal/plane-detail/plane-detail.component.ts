@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CreateAirlineCommand, PlanesClient } from '../../../web-api-client';
+import { CreateAirlineCommand, PlanesClient, UpdateAirlineCommand } from '../../../web-api-client';
 import { SpinnerServiceService } from '../../../Services/Shared/spinner-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 declare var $: any;
@@ -30,8 +30,59 @@ export class PlaneDetailComponent {
     }
   }
 
+  UpdateAirline(inputAirlineName: any, inputCode: any, inputAirlineModel: any) {
+
+    this.loader.ShowLoader();
+
+    var errorMessage = '';
+    var _isChecked = $('#flexSwitchCheckChecked').is(":checked");
+
+    const list = {
+      uniqueId: this.uniqueKey,
+      airlineName: inputAirlineName,
+      code: inputCode,
+      model: inputAirlineModel
+    };
+
+    if(inputAirlineName == ''){
+      errorMessage += "Airline is required<br>";
+    }
+
+    if(inputCode == ''){
+      errorMessage += "Airline Code is required<br>";
+    }
+
+    if(inputAirlineModel == ''){
+      errorMessage += "Airline Model Code is required<br>";
+    }
+  
+    if(errorMessage == ''){
+      this.planeClient.updateAirline(list as UpdateAirlineCommand).subscribe(
+        result => {
+          if(result.resultType == 1){
+            this.loader.ShowToast("Plane details has been successfully updated.", "success");
+            this.router.navigate(['/portal/manage-planes',result.data?.id,'detail']);
+          }else{
+            this.loader.DisplayErrorMessage(result.message);
+            this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
+          }
+        },
+        error => {
+          const errors = JSON.parse(error.response).errors;
+          this.loader.DisplayErrorMessage(errors);
+          this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
+        }
+      );
+    }else{
+      this.loader.DisplayErrorMessage(errorMessage);
+      this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
+    }
+  }
+
   SaveAirline(inputAirlineName: any, inputCode: any, inputAirlineModel: any) {
 
+    this.loader.ShowLoader();
+    
     var errorMessage = '';
 
     const list = {
@@ -56,24 +107,23 @@ export class PlaneDetailComponent {
       this.planeClient.createAirline(list as CreateAirlineCommand).subscribe(
         result => {
           if(result.resultType == 1){
+            this.loader.ShowToast("New Plane has been successfully added.", "success");
             this.router.navigate(['/portal/manage-planes',result.data?.id,'detail']);
           }else{
-            this.DisplayErrorMessage(result.message);
+            this.loader.DisplayErrorMessage(result.message);
+            this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
           }
         },
         error => {
           const errors = JSON.parse(error.response).errors;
-          this.DisplayErrorMessage(errors);
+          this.loader.DisplayErrorMessage(errors);
+          this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
         }
       );
     }else{
-      this.DisplayErrorMessage(errorMessage);
+      this.loader.DisplayErrorMessage(errorMessage);
+      this.loader.ShowToast("Something went wrong. Check the validation error/s.", "error");
     }
-  }
-
-  DisplayErrorMessage(message: any){
-    $("#errorMessage").html(message);
-    $("#alert").show();
   }
 
   getAirportById(id: any): void {
